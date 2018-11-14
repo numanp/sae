@@ -17,7 +17,11 @@ class Main extends React.Component{
         return (        
             
                     <Switch>
-                        {/* <Route path="/register" component={RegisterContainer}/> */}
+                        <div>
+                           <h1>
+                           Bienvenidos a SAE
+                           </h1> 
+                        </div>
                         
                     </Switch>
              
