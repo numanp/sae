@@ -1,0 +1,40 @@
+{
+  "name": "security-access-entrypoint-back",
+  "version": "1.0.0",
+  "description": "Acceso con SUBE",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon ./bin/www"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Plataforma5la/sae"
+  },
+  "author": "CPC",
+  "license": "CPC",
+  "homepage": "https://github.com/Plataforma5la/sae#readme",
+  "dependencies": {
+    "bluebird": "^3.5.1",
+    "body-parser": "^1.18.2",
+    "cookie-parser": "^1.4.3",
+    "crypto": "^1.0.1",
+    "debug": "~2.6.9",
+    "ect": "^0.5.9",
+    "express": "^4.16.2",
+    "express-crypto": "1.0.5",
+    "express-session": "^1.15.6",
+    "faker": "^4.1.0",
+    "http-errors": "~1.6.2",
+    "morgan": "^1.9.0",
+    "nodemon": "^1.18.5",
+    "passport": "^0.4.0",
+    "passport-local": "^1.0.0",
+    "pg": "^7.6.0",
+    "pg-hstore": "^2.3.2",
+    "sequelize": "^4.41.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.5"
+  }
+}
