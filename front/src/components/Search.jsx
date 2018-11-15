@@ -1,7 +1,5 @@
 import React from 'react';
 import TextField from '@material-ui/core/TextField';
-
-
 export default ({handleChange, inputValue}) => (
     <form>
         <TextField 
@@ -14,6 +12,5 @@ export default ({handleChange, inputValue}) => (
             variant="outlined"
             //value={inputValue}
         />
-    
     </form>
 )
