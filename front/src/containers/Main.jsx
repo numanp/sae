@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 
 //CONTAINERS
 import HomeContainer from './HomeContainer'
-import NavbarContainer from './NavbarContainer'
+import NavbarSidebarContainer from './NavbarSidebarContainer.'
 
 //COMPONENTS
 // import AdminProfile from '../components/AdminProfile';
@@ -17,7 +17,7 @@ class Main extends React.Component{
     render(){
         return (    
                 <div>
-                <NavbarContainer />
+                <NavbarSidebarContainer />
                 <HomeContainer />
 
                 <Switch>
