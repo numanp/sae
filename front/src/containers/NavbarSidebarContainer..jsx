@@ -162,7 +162,7 @@ class navbarSidebarContainer extends React.Component {
         >
           <div className={classes.drawerHeader} />
           <Typography paragraph>
-            Texto de ayuda
+          
           </Typography>
         </main>
       </div>
