@@ -3,7 +3,7 @@ import { Link, Route, Switch, Redirect } from 'react-router-dom';
 import {connect} from 'react-redux';
 
 //CONTAINERS
-
+import ListaUsuarios from './ListaUsuariosContainers'
 
 //COMPONENTS
 // import AdminProfile from '../components/AdminProfile';
@@ -17,12 +17,7 @@ class Main extends React.Component{
         return (        
             
                     <Switch>
-                        <div>
-                           <h1>
-                           Bienvenidos a SAE
-                           </h1> 
-                        </div>
-                        
+                       <Route path='/' component={ListaUsuarios} />                        
                     </Switch>
              
         )
