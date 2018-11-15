@@ -1,80 +1,94 @@
-const db = require('../index');
-const Order = require('./Order');
-const crypto = require('crypto');
+var crypto = require('crypto')
+
+var db = require('../index');
 const Sequelize = require('sequelize');
 
 const User = db.define('user', {
+        nombre: {
+            type: Sequelize.STRING,
+            allowNull : false,
+        },
+        apellido: {
+            type: Sequelize.STRING,
+            allowNull : false,
+        },
+        email: {
+            type: Sequelize.STRING,
+            validate: {
+                isEmail: true,
+                allowNull : false,
+                isUnique: function(value, next){
+                    User.find({
+                        where: { email: value },
+                    })
+                        .then(function(user, error){
+                            if (error) return next('Por favor, ingresa los caracteres correctos');
+                            if (user) return next('El email ya esta usado');
+                            next()
+                        })
+                        .catch(error => console.log(error))
+                },
+            },
+        },
+        password: {
+            type: Sequelize.STRING,
+            allowNull : false,
+            validate: {
+                isLongEnough: function (val) {
+                    if (val.length < 8) {
+                        throw new Error("Por favor ingresa una contraseña mayor a 8 caracteres")
+                    }
+                }
+            },
+        },
+        salt: {
+            type: Sequelize.STRING,
+        },
+        dni: {
+            type: Sequelize.INTEGER,
+            allowNull : false,
+        },
+        telefono: {
+            type: Sequelize.INTEGER,
+            allowNull : false,
 
-    first_name: {
-        type: Sequelize.STRING(20),
-        allowNull: false
-    },
-
-    last_name: {
-        type: Sequelize.STRING(30),
-        allowNull: false
-    },
-
-    email:{
-        type: Sequelize.STRING,
-        allowNull: false,
-        unique: true,
-        validate: {
-            isEmail: true
+        },
+        imgPerfil: {
+            type: Sequelize.STRING,
+        },
+        levelAccess: {
+            type: Sequelize.STRING,
+        },
+        subeId: {
+            type: Sequelize.STRING,
+            allowNull : false,
         }
-    },
-
-    password: {
-        type: Sequelize.STRING,
-        allowNull: true,
-        validate:{
-            notEmpty: false,
-            len: {
-                args: [8, 12]
+    },  {
+            getterMethods: {
+                nombreCompleto() {
+                    return this.nombre + ' ' + this.apellido
             }
-        }
-    },
+        },
+})
 
-    salt : {
-        type : Sequelize.STRING
-    },
-
-    address: {
-        type: Sequelize.STRING(50),
-        allowNull: false
-    },
-
-    dni: {
-        type: Sequelize.INTEGER,
-        allowNull: false
-    },
-
-    cellphone: {
-        type: Sequelize.INTEGER,
-        allowNull: false
-    },
-
-    access: {
-        type: Sequelize.BOOLEAN,
-        defaultValue: false
-    }
-
-});
-
-User.hasMany(Order);
-
-User.passwordSalt = () => {
+User.pSalt = function () {
     return crypto.randomBytes(20).toString('hex');
 }
 
-User.prototype.passwordHash = (password, salt) => {
-    return crypto.createHmac('sha1', salt).update(password).digest('hex');
+User.prototype.passHash = function (password, salt) {
+    var pass = crypto.createHmac('sha1', salt).update(password).digest('hex')
+    return pass
 }
 
-User.hook('beforeCreate', user => {
-    user.salt = User.passwordSalt();
-    let { password, salt } = user;
-    user.password = user.passwordHash(password,salt);
-})
+User.hook('beforeCreate', (user, options) => {
+    user.salt = User.pSalt();
+    user.password = user.passHash(user.password, user.salt)
+});
 
-module.exports = User;
+User.prototype.checkPassword = function (password) {
+    var pass = crypto.createHmac('sha1', this.salt).update(password).digest('hex')
+    if (pass == this.password) return true
+    return false
+}
+
+module.exports = User
