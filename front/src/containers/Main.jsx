@@ -3,7 +3,8 @@ import { Link, Route, Switch, Redirect } from 'react-router-dom';
 import {connect} from 'react-redux';
 
 //CONTAINERS
-
+import HomeContainer from './HomeContainer'
+import NavbarSidebarContainer from './NavbarSidebarContainer.'
 
 //COMPONENTS
 // import AdminProfile from '../components/AdminProfile';
@@ -14,16 +15,16 @@ class Main extends React.Component{
     }
    
     render(){
-        return (        
-            
-                    <Switch>
-                        <div>
-                           <h1>
-                           Bienvenidos a SAE
-                           </h1> 
-                        </div>
+        return (    
+                <div>
+                <NavbarSidebarContainer />
+                <HomeContainer />
+
+                <Switch>
+                     {/* <Route path="/register" component={RegisterContainer}/> */}
                         
-                    </Switch>
+                </Switch>
+                </div>
              
         )
     }

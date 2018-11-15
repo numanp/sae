@@ -1,7 +1,7 @@
 import React from 'react'
 
 
-export default ({user, logOut, showCart})=>(
+export default ({})=>(
     <div>
      
     </div>
