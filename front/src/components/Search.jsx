@@ -14,5 +14,6 @@ export default Search = ({handleChange, inputValue}) => (
             variant="outlined"
             //value={inputValue}
         />
+        
     </form>
 )
