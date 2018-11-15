@@ -28,7 +28,7 @@ const User = db.define('user', {
             },
         },
         password: {
-            type: Sequelize.INTEGER,
+            type: Sequelize.STRING,
             validate: {
                 isLongEnough: function (val) {
                     if (val.length < 8) {
