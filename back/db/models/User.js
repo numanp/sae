@@ -6,14 +6,17 @@ const Sequelize = require('sequelize');
 const User = db.define('user', {
         nombre: {
             type: Sequelize.STRING,
+            allowNull : false,
         },
         apellido: {
             type: Sequelize.STRING,
+            allowNull : false,
         },
         email: {
             type: Sequelize.STRING,
             validate: {
                 isEmail: true,
+                allowNull : false,
                 isUnique: function(value, next){
                     User.find({
                         where: { email: value },
@@ -29,6 +32,7 @@ const User = db.define('user', {
         },
         password: {
             type: Sequelize.STRING,
+            allowNull : false,
             validate: {
                 isLongEnough: function (val) {
                     if (val.length < 8) {
@@ -42,9 +46,12 @@ const User = db.define('user', {
         },
         dni: {
             type: Sequelize.INTEGER,
+            allowNull : false,
         },
         telefono: {
             type: Sequelize.INTEGER,
+            allowNull : false,
+
         },
         imgPerfil: {
             type: Sequelize.STRING,
@@ -54,6 +61,7 @@ const User = db.define('user', {
         },
         subeId: {
             type: Sequelize.STRING,
+            allowNull : false,
         }
     },  {
             getterMethods: {
