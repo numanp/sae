@@ -1,7 +1,9 @@
 import React from 'react';
 import TextField from '@material-ui/core/TextField';
+
+
 export default ({handleChange, inputValue}) => (
-    <form>
+    <form style={{textAlign:'center'}}>
         <TextField 
             onChange={handleChange}
             style={{width:'300px'}}
@@ -10,7 +12,7 @@ export default ({handleChange, inputValue}) => (
             type="search"
             margin="normal"
             variant="outlined"
-            //value={inputValue}
+            value={inputValue}
         />
     </form>
 )

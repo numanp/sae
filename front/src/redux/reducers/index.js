@@ -6,10 +6,10 @@ import { combineReducers } from 'redux';
 /* 
 importamos archivos nuestros
 */
-// import productReducer from './productReducer'
+import usersReducer from './usersReducer';
 
 
 export default combineReducers({
-    // product: productReducer,
+    users: usersReducer,
     
   });

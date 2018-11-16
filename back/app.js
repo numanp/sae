@@ -12,7 +12,7 @@ var faker = require('faker')
 //MODELS & SYNC
 // const User = require('./db/models/User');
 const db = require('./db/index');
-db.sync({force : true});
+db.sync({force : false});
 
 
 //APP
