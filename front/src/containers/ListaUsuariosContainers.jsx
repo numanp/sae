@@ -11,6 +11,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import TablePaginationActions from '../containers/TablePaginationContainer'
 import Search from '../components/Search'
+import { fetchUsers } from '../redux/actions/allUsersActions'
 
 const actionsStyles = theme => ({
   root: {
@@ -24,11 +25,7 @@ const TablePaginationActionsWrapped = withStyles(actionsStyles, { withTheme: tru
   TablePaginationActions,
 );
 
-let counter = 0;
-function createData(name, horarios, levelAccess) {
-  counter += 1;
-  return { id: counter, name, horarios, levelAccess };
-}
+
 
 const styles = theme => ({
   root: {
@@ -49,7 +46,7 @@ const CustomTableCell = withStyles(theme => ({
     color: theme.palette.common.white,
   },
   body: {
-    fontSize: 14,
+    fontSize: 16,
   },
 }))(TableCell);
 
@@ -57,29 +54,16 @@ class ListaUsuariosContainer extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-            rows: [
-              createData('Cupcake', 305, 3.7),
-              createData('Donut', 452, 25.0),
-              createData('Eclair', 262, 16.0),
-              createData('Frozen yoghurt', 159, 6.0),
-              createData('Gingerbread', 356, 16.0),
-              createData('Honeycomb', 408, 3.2),
-              createData('Ice cream sandwich', 237, 9.0),
-              createData('Jelly Bean', 375, 0.0),
-              createData('KitKat', 518, 26.0),
-              createData('Lollipop', 392, 0.2),
-              createData('Marshmallow', 318, 0),
-              createData('Nougat', 360, 19.0),
-              createData('Oreo', 437, 18.0),
-            ].sort((a, b) => (a.horarios < b.horarios ? -1 : 1)),
+            rows: [],
             page: 0,
             rowsPerPage: 5,
             inputValue:'',
           };
           this.handleChange=this.handleChange.bind(this);
     }
-
-
+componentDidMount(){
+    this.props.fetchUsers()
+};
   handleChangePage = (event, page) => {
     this.setState({ page });
   };
@@ -93,9 +77,9 @@ class ListaUsuariosContainer extends React.Component {
   }
 
   render() {
-    const { classes } = this.props;
+    const { classes,users } = this.props;
     const { rows, rowsPerPage, page } = this.state;
-    const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
+    const emptyRows = rowsPerPage - Math.min(rowsPerPage, (users ? users.length : 0) - page * rowsPerPage);   
 
     return (
       <Paper className={classes.root}>
@@ -110,13 +94,13 @@ class ListaUsuariosContainer extends React.Component {
             </TableRow>
         </TableHead>
             <TableBody>
-              {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row => {
+              {users && users.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row => {
                 return (
                   <TableRow key={row.id}>
                     <TableCell component="th" scope="row">
-                      {row.name}
+                      {row.nombreCompleto}
                     </TableCell>
-                    <TableCell>{row.horarios}</TableCell>
+                    <TableCell>{row.subeId}</TableCell>
                     <TableCell>{row.levelAccess}</TableCell>
                   </TableRow>
                 );
@@ -132,7 +116,7 @@ class ListaUsuariosContainer extends React.Component {
                 <TablePagination
                   rowsPerPageOptions={[5, 10, 25]}
                   colSpan={3}
-                  count={rows.length}
+                  count={(users ? users.length: 0)}
                   rowsPerPage={rowsPerPage}
                   page={page}
                   onChangePage={this.handleChangePage}
@@ -150,12 +134,14 @@ class ListaUsuariosContainer extends React.Component {
 
 function mapStateToProps(state){
   return {
-
+    users: state.users[0],
   }
 }
 function mapDispatchToProps(dispatch){
   return {
-
+    fetchUsers: function(){
+        dispatch(fetchUsers())
+    }
   }
 }
 
