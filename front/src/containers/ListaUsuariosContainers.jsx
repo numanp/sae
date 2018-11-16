@@ -54,10 +54,10 @@ class ListaUsuariosContainer extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-            rows: [],
             page: 0,
             rowsPerPage: 5,
             inputValue:'',
+            lista:[],
           };
           this.handleChange=this.handleChange.bind(this);
     }
@@ -71,15 +71,25 @@ componentDidMount(){
   handleChangeRowsPerPage = event => {
     this.setState({ rowsPerPage: event.target.value });
   };
-
-  handleChange = (e) => {
-    this.setState({inputValue: e.target.value})
+  componentWillReceiveProps(nextProps){    
+    this.setState({lista: nextProps.users})    
   }
 
+  handleChange = (e) => {
+    if(e.target.value!=''){
+      var filtrada = this.props.users.filter(elem=>elem.nombreCompleto.toLowerCase().indexOf(e.target.value.toLowerCase()) > -1)      
+      this.setState({
+        inputValue: e.target.value,
+        lista: filtrada
+        })
+    }else{
+      this.setState({lista: this.props.users,inputValue: ''})
+    }
+  }
   render() {
     const { classes,users } = this.props;
-    const { rows, rowsPerPage, page } = this.state;
-    const emptyRows = rowsPerPage - Math.min(rowsPerPage, (users ? users.length : 0) - page * rowsPerPage);   
+    const { lista, rowsPerPage, page } = this.state;
+    const emptyRows = rowsPerPage - Math.min(rowsPerPage, (lista[0] ? lista.length : 0) - page * rowsPerPage);   
 
     return (
       <Paper className={classes.root}>
@@ -94,7 +104,7 @@ componentDidMount(){
             </TableRow>
         </TableHead>
             <TableBody>
-              {users && users.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row => {
+              {lista[0] && lista.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row => {
                 return (
                   <TableRow key={row.id}>
                     <TableCell component="th" scope="row">
@@ -116,7 +126,7 @@ componentDidMount(){
                 <TablePagination
                   rowsPerPageOptions={[5, 10, 25]}
                   colSpan={3}
-                  count={(users ? users.length: 0)}
+                  count={(lista[0] ? lista.length: 0)}
                   rowsPerPage={rowsPerPage}
                   page={page}
                   onChangePage={this.handleChangePage}
