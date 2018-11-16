@@ -167,7 +167,7 @@ class NavbarSidebarContainer extends React.Component {
         >
         {/* ESTE ES EL BOTON DE SWIPPEO */}
           <div className={classes.drawerHeader}>
-            <IconButton onClick={this.handleDrawerClose}>
+            <IconButton style={{color: 'white'}} onClick={this.handleDrawerClose}>
               {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
             </IconButton>
           </div>
