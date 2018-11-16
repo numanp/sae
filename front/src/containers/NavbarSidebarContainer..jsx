@@ -10,16 +10,21 @@ import List from '@material-ui/core/List';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
+import Button from '@material-ui/core/Button';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ControlDePuertaIcon from '@material-ui/icons/SwapHoriz'
+import ListaDeUsuarios from '@material-ui/icons/AccountCircle'
+import HistorialDeAccesos from '@material-ui/icons/ChromeReaderMode'
 import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
+
+import { createMuiTheme } from '@material-ui/core/styles';
 
 const drawerWidth = 240;
+
 
 const styles = theme => ({
   root: {
@@ -39,9 +44,16 @@ const styles = theme => ({
       duration: theme.transitions.duration.enteringScreen,
     }),
   },
+ 
   menuButton: {
     marginLeft: 12,
     marginRight: 20,
+  },
+  menuButtonRight: {
+    marginLeft: 12,
+    marginRight: 10,
+    position: 'absolute',
+    right: '150px',
   },
   hide: {
     display: 'none',
@@ -52,6 +64,7 @@ const styles = theme => ({
   },
   drawerPaper: {
     width: drawerWidth,
+    backgroundColor: '#c51440',
   },
   drawerHeader: {
     display: 'flex',
@@ -59,6 +72,7 @@ const styles = theme => ({
     padding: '0 8px',
     ...theme.mixins.toolbar,
     justifyContent: 'flex-end',
+   
   },
   content: {
     flexGrow: 1,
@@ -76,16 +90,32 @@ const styles = theme => ({
     }),
     marginLeft: 0,
   },
+
+  //ACA EMPIEZAN LOS ESTILOS PERSONALIZADOS
+
+  menuSideBar1: {
+    backgroundColor: '#8e0c2d',
+  },
+  menuSideBar2: {
+    primary: '#ffffff',
+    color: '#ffffff'
+  },
+  iconsColor: {
+    color: 'white'
+  },
+  dividerColor: {
+    backgroundColor: 'white',
+    boxShadow: '0 20px 20px -20px #333'
+  }
 });
 
-class navbarSidebarContainer extends React.Component {
+class NavbarSidebarContainer extends React.Component {
   constructor(props){
     super(props)
-  
-  this.state = {
+  }
+  state = {
     open: false,
   };
-  }
 
   handleDrawerOpen = () => {
     this.setState({ open: true });
@@ -103,6 +133,8 @@ class navbarSidebarContainer extends React.Component {
       <div className={classes.root}>
         <CssBaseline />
         <AppBar
+          
+          style={{backgroundColor: '#c51440'}}
           position="fixed"
           className={classNames(classes.appBar, {
             [classes.appBarShift]: open,
@@ -118,9 +150,11 @@ class navbarSidebarContainer extends React.Component {
               <MenuIcon />
             </IconButton>
             <Typography variant="h6" color="inherit" noWrap>
-              Plataforma 5
+              P5
             </Typography>
+            <Button className={classes.menuButtonRight} color="inherit">Login</Button>
           </Toolbar>
+          
         </AppBar>
         <Drawer
           className={classes.drawer}
@@ -131,29 +165,26 @@ class navbarSidebarContainer extends React.Component {
             paper: classes.drawerPaper,
           }}
         >
+        {/* ESTE ES EL BOTON DE SWIPPEO */}
           <div className={classes.drawerHeader}>
             <IconButton onClick={this.handleDrawerClose}>
               {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
             </IconButton>
           </div>
-          <Divider />
-          <List>
-            {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-              <ListItem button key={text}>
-                <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                <ListItemText primary={text} />
+        {/* ------------------------------------- */}
+          <Divider  />
+          <List className={ classes.menuSideBar1 }>
+          
+            {['Control de puerta', 'Lista de Usuarios', 'Historial de acceso'].map((text, index) => (
+              <ListItem className={ classes.menuSideBar2 } button key={text}>{index == 0 ? <ControlDePuertaIcon /> : index == 1 ? <ListaDeUsuarios /> : <HistorialDeAccesos /> }
+                <ListItemIcon className = {classes.iconsColor}> </ListItemIcon>
+                <ListItemText disableTypography
+        primary={<Typography type="body2" style={{ color: '#FFFFFF', fontFamily: 'Roboto' }}>{text}</Typography>} />
               </ListItem>
             ))}
           </List>
-          <Divider />
-          <List>
-            {['All mail', 'Trash', 'Spam'].map((text, index) => (
-              <ListItem button key={text}>
-                <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItem>
-            ))}
-          </List>
+          <Divider className={classes.dividerColor} />
+
         </Drawer>
         <main
           className={classNames(classes.content, {
@@ -161,18 +192,15 @@ class navbarSidebarContainer extends React.Component {
           })}
         >
           <div className={classes.drawerHeader} />
-          <Typography paragraph>
-          
-          </Typography>
         </main>
       </div>
     );
   }
 }
 
-navbarSidebarContainer.propTypes = {
+NavbarSidebarContainer.propTypes = {
   classes: PropTypes.object.isRequired,
   theme: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles, { withTheme: true })(navbarSidebarContainer);
+export default withStyles(styles, { withTheme: true })(NavbarSidebarContainer);
