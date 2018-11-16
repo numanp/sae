@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
-var passport = require('passport');
+const User = require('../db/models/User');
 
-//MODELS
-// var User = require('../db/models/User');
-
-
+router.get('/', (req, res) => {
+    User.findAll()
+    .then(users => res.send(users))
+})
 module.exports = router;

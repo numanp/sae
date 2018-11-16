@@ -8,7 +8,7 @@ var logger = require('morgan');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var bodyParser = require('body-parser');
-
+var faker = require('faker')
 //MODELS & SYNC
 // const User = require('./db/models/User');
 const db = require('./db/index');
@@ -30,14 +30,26 @@ console.log(path.join(__dirname, '../front/dist'))
 // app.use(express.static(path.resolve(__dirname,'/../front/dist')));
 
 //ROUTERS
-// const userRouter = require('./routes/userRouter');
+const userRouter = require('./routes/userRouter');
+const User = require('./db/models/User')
 
 
 //ROUTES
+// app.use('/creador', ()=>{
+//   User.create({
+//     nombre : faker.name.firstName(),
+//     apellido : faker.name.lastName(),
+//     email : faker.internet.email(),
+//     password : '12345678',
+//     dni : 37038970,
+//     telefono : 47854514,
+//     imgPerfil : faker.image.imageUrl(),
+//     levelAccess : 'superadmin',
+//     subeId : '2A:5H:AJ:E4'
+//   }).then(console.log)
+// })
 
-// app.use('/api/user', userRouter);
-
-
+app.use('/api/usuarios', userRouter);
 app.use('/*', (req, res) => {
   res.sendFile(path.join(__dirname, '../front/index.html'));
 });

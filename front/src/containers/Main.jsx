@@ -3,6 +3,7 @@ import { Link, Route, Switch, Redirect } from 'react-router-dom';
 import {connect} from 'react-redux';
 
 //CONTAINERS
+import ListaUsuarios from './ListaUsuariosContainers'
 import HomeContainer from './HomeContainer'
 import NavbarSidebarContainer from './NavbarSidebarContainer.'
 
@@ -21,7 +22,7 @@ class Main extends React.Component{
                 <HomeContainer />
 
                 <Switch>
-                     {/* <Route path="/register" component={RegisterContainer}/> */}
+                <Route path='/' component={ListaUsuarios} /> 
                         
                 </Switch>
                 </div>

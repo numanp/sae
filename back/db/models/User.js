@@ -14,9 +14,9 @@ const User = db.define('user', {
         },
         email: {
             type: Sequelize.STRING,
+            allowNull : false,
             validate: {
                 isEmail: true,
-                allowNull : false,
                 isUnique: function(value, next){
                     User.find({
                         where: { email: value },
