@@ -10,7 +10,7 @@ var LocalStrategy = require('passport-local').Strategy;
 var bodyParser = require('body-parser');
 var faker = require('faker')
 //MODELS & SYNC
-// const User = require('./db/models/User');
+
 const db = require('./db/index');
 db.sync({force : false});
 
@@ -31,7 +31,8 @@ console.log(path.join(__dirname, '../front/dist'))
 
 //ROUTERS
 const userRouter = require('./routes/userRouter');
-const User = require('./db/models/User')
+const User = require('./db/models/User');
+const Horarios = require('./db/models/Horarios')
 
 
 //ROUTES
@@ -46,6 +47,15 @@ const User = require('./db/models/User')
 //     imgPerfil : faker.image.imageUrl(),
 //     levelAccess : 'superadmin',
 //     subeId : '2A:5H:AJ:E4'
+//   }).then(console.log)
+// })
+// app.use('/creador',()=>{
+//   Horarios.create({
+//     dias: ['Lunes','Miercoles','Viernes'],
+//     fechaInicio: '2018-10-10',
+//     fechaFin: '2018-12-10',
+//     horarioMin: '100000',
+//     horarioMax: '18:00:00'
 //   }).then(console.log)
 // })
 
