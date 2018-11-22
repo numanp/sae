@@ -1,6 +1,6 @@
 const db = require('../index');
 const Sequelize = require('sequelize');
-const User = require('./User')
+
 
 const Horarios = db.define('horarios',{
     dias: {
@@ -8,11 +8,11 @@ const Horarios = db.define('horarios',{
         allowNull: false,
     },
     fechaInicio:{
-        type: Sequelize.DATEONLY,
+        type: Sequelize.STRING,
         allowNull: false
     },
     fechaFin: {
-        type: Sequelize.DATEONLY,
+        type: Sequelize.STRING,
         allowNull: false
     },
     horarioMin: {
@@ -24,5 +24,5 @@ const Horarios = db.define('horarios',{
         allowNull: false
     }
 })
-Horarios.belongsTo(User);
+
 module.exports = Horarios
