@@ -9,3 +9,4 @@ export const fetchUsers = () => (dispatch) => {
     .then(res => res.data)
     .then(data => dispatch(allusers(data)))
 }
+

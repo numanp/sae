@@ -7,30 +7,34 @@ import Grid from '@material-ui/core/Grid';
 
 
 
-export default ({user, handleSubmit, saveChanges, deleteUser, changeSUBE, handleSwitch, switcher}) => (
+export default ({user, handleSubmit, deleteUser, changeSUBE, handleSwitch, switcher, handleChange}) => (
     <Grid container spacing={24}>
         <Grid item xs={2}>
-            <img className="profile-pic" src="https://pbs.twimg.com/profile_images/922082337696907264/o4qnbSB0_400x400.jpg" alt=""/><br/>
+            <img className="profile-pic" src={`${user.imgPerfil}`} alt=""/><br/>
         </Grid>
         <Grid container spacing={16} xs={10}>
             <Grid item xs={6}>
                 <TextField 
-                    id="name"
+                    id="nombre"
                     label="Nombre"
                     type="text"
                     margin="normal"
                     variant="outlined"
                     fullWidth
+                    value={user.nombre}
+                    onChange={handleChange}
                     />
             </Grid>
             <Grid item xs={6}>
-                <TextField 
+                <TextField                 
                     fullWidth
-                    id="lastName"
+                    id="apellido"
                     label="Apellido"
                     type="text"
                     margin="normal"
                     variant="outlined"
+                    value={user.apellido}
+                    onChange={(e)=>handleChange(e)}
                 /> 
             </Grid> 
             <Grid item xs={6}>
@@ -41,6 +45,8 @@ export default ({user, handleSubmit, saveChanges, deleteUser, changeSUBE, handle
                     margin="normal"
                     variant="outlined"
                     fullWidth
+                    value={user.email}
+                    onChange={(e)=>handleChange(e)}
                 />
             </Grid>
             <Grid item xs={6}>
@@ -51,6 +57,8 @@ export default ({user, handleSubmit, saveChanges, deleteUser, changeSUBE, handle
                     margin="normal"
                     variant="outlined"
                     fullWidth
+                    value={user.password}
+                    onChange={(e)=>handleChange(e)}
                 /> 
             </Grid>
             <Grid item xs={6}>
@@ -61,35 +69,40 @@ export default ({user, handleSubmit, saveChanges, deleteUser, changeSUBE, handle
                     type="text"
                     margin="normal"
                     variant="outlined"
+                    value={user.dni}
+                    onChange={(e)=>handleChange(e)}
                 />
             </Grid>
             <Grid item xs={3}>
                 <TextField 
                     fullWidth
-                    id="telephone"
+                    id="telefono"
                     label="Telefono"
                     type="text"
                     margin="normal"
                     variant="outlined"
+                    value={user.telefono}
+                    onChange={(e)=>handleChange(e)}
                 />
             </Grid>
             <Grid item xs={3}>
                 <TextField 
                     fullWidth
                     disabled
-                    id="sube"
+                    id="subeId"
                     label="SUBE"
                     type="text"
                     margin="normal"
                     variant="outlined"
+                    value={user.subeId}
                 />
             </Grid>
         </Grid>
         <Grid container spacing={16} xs={2}>
-            <Grid item xs={12}> <Button fullWidth variant="contained" color="primary"> {user ? 'Guardar modificaciones' : 'Guardar usuario'} </Button> </Grid>
+            <Grid item xs={12}> <Button fullWidth variant="contained" color="primary" onClick={handleSubmit}> {user.name ? 'Guardar modificaciones' : 'Guardar usuario'} </Button> </Grid>
             <Grid item xs={12}> <Button fullWidth variant="contained" color="default">Cambiar horarios</Button> </Grid>
-            {user ? <Grid item xs={12}> <Button fullWidth variant="contained" color="secondary"> Cambiar sube </Button> </Grid>: null }
-            {user ? <Grid item xs={12}> <Button fullWidth variant="contained" color="secondary"> Eliminar usuario </Button> </Grid> : null}
+            {user ? <Grid item xs={12}> <Button fullWidth variant="contained" color="secondary" type="submit"> Cambiar sube </Button> </Grid>: null }
+            {user ? <Grid item xs={12}> <Button fullWidth variant="contained" color="secondary" onClick={deleteUser} > Eliminar usuario </Button> </Grid> : null}
         </Grid>
         <Grid container xs={10}> 
             <FormControlLabel

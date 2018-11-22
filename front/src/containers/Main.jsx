@@ -8,6 +8,7 @@ import HomeContainer from './HomeContainer'
 
 import LogIn from './LogInContainer'
 import NavbarSidebarContainer from './NavbarSidebarContainer'
+import ProfileContainer from './ProfileContainer';
 
 
 //COMPONENTS
@@ -26,8 +27,8 @@ class Main extends React.Component{
                 <Switch>
 
                     <Route path='/lista' component={ListaUsuarios} />    
-                    <Route path='/login' component={LogIn} />    
-
+                    <Route path='/login' component={LogIn} />
+                    <Route path='/userProfile' component={ProfileContainer} />
                 </Switch>
                 </div>
              

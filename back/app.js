@@ -35,7 +35,7 @@ const User = require('./db/models/User');
 const Horarios = require('./db/models/Horarios')
 
 
-//ROUTES
+// //ROUTES
 // app.use('/creador', ()=>{
 //   User.create({
 //     nombre : faker.name.firstName(),
