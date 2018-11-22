@@ -7,8 +7,14 @@ router.get('/', (req, res) => {
     .then(users => res.send(users))
 })
 
+router.post('/', (req, res) =>{
+  User.create(req.body.user)
+  .then(user => res.send(user))
+})
+
+
 router.get('/:userid', (req, res) => {
-  User.findById(req.params.userId)
+  User.findById(req.params.userid)
   .then(user => res.send(user))
 }) //OK
 
@@ -28,11 +34,11 @@ router.put('/:id', (req, res) => {
     });
 });
 
-router.put('/subeId/', (req, res) => {
+router.put('/subeId', (req, res) => {
   User.findById(req.body.userId).then(user =>
     //User.findById(req.params.userId).then(user =>
     user.update({ subeId: req.body.subeId }).then(() => {
-      res.status(200).send('sube de usuario modificada ');
+      res.status(200).send(subeId, 'sube de usuario modificada ');
     }),
   );
 }); //OK

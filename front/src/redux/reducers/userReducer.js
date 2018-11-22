@@ -12,6 +12,8 @@ export default (state={},action) => {
             return console.log('LO HIZO ADMIN')
         case 'CHANGE_SUBE':
             return Object.assign({}, state, { user: action.changeSube })
+        case 'NEW_USER':
+            return Object.assign({}, state, { user: action.userCreation })
         default:
             return state;
     }
