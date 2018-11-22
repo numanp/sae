@@ -6,6 +6,7 @@ import {connect} from 'react-redux';
 import ListaUsuarios from './ListaUsuariosContainers'
 import HomeContainer from './HomeContainer'
 import NavbarSidebarContainer from './NavbarSidebarContainer.'
+import UserForm from '../components/UserForm';
 
 //COMPONENTS
 // import AdminProfile from '../components/AdminProfile';
@@ -22,8 +23,8 @@ class Main extends React.Component{
                 <HomeContainer />
 
                 <Switch>
+                <Route path='/facu' component={UserForm} />
                 <Route path='/' component={ListaUsuarios} /> 
-                        
                 </Switch>
                 </div>
              
