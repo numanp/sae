@@ -176,11 +176,14 @@ class NavbarSidebarContainer extends React.Component {
           <List className={ classes.menuSideBar1 }>
           
             {['Control de puerta', 'Lista de Usuarios', 'Historial de acceso'].map((text, index) => (
+              
+
               <ListItem className={ classes.menuSideBar2 } button key={text}>{index == 0 ? <ControlDePuertaIcon /> : index == 1 ? <ListaDeUsuarios /> : <HistorialDeAccesos /> }
                 <ListItemIcon className = {classes.iconsColor}> </ListItemIcon>
                 <ListItemText disableTypography
         primary={<Typography type="body2" style={{ color: '#FFFFFF', fontFamily: 'Roboto' }}>{text}</Typography>} />
               </ListItem>
+            
             ))}
           </List>
           <Divider className={classes.dividerColor} />

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom'
 import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -33,6 +34,11 @@ const styles = theme => ({
     width: '700px',
     marginTop: theme.spacing.unit * 3,
   },
+  row: {
+    '&:nth-of-type(odd)': {
+      backgroundColor: theme.palette.background.default,
+    },
+  },
   table: {
     minWidth: 500,
   },
@@ -44,9 +50,10 @@ const CustomTableCell = withStyles(theme => ({
   head: {
     backgroundColor: theme.palette.common.black,
     color: theme.palette.common.white,
+    fontSize: 14,
   },
   body: {
-    fontSize: 16,
+    fontSize: 20,
   },
 }))(TableCell);
 
@@ -71,7 +78,7 @@ componentDidMount(){
   handleChangeRowsPerPage = event => {
     this.setState({ rowsPerPage: event.target.value });
   };
-  componentWillReceiveProps(nextProps){    
+  componentWillReceiveProps(nextProps){       
     this.setState({lista: nextProps.users})    
   }
 
@@ -106,11 +113,11 @@ componentDidMount(){
             <TableBody>
               {lista[0] && lista.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row => {
                 return (
-                  <TableRow key={row.id}>
+                  <TableRow key={row.id} hover >
                     <TableCell component="th" scope="row">
                       {row.nombreCompleto}
                     </TableCell>
-                    <TableCell>{row.subeId}</TableCell>
+                    <TableCell>{row.horario.dias.toString()}</TableCell>
                     <TableCell>{row.levelAccess}</TableCell>
                   </TableRow>
                 );
@@ -144,7 +151,7 @@ componentDidMount(){
 
 function mapStateToProps(state){
   return {
-    users: state.users[0],
+    users: state.users,
   }
 }
 function mapDispatchToProps(dispatch){

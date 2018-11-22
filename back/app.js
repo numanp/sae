@@ -36,28 +36,31 @@ const Horarios = require('./db/models/Horarios')
 
 
 //ROUTES
-// app.use('/creador', ()=>{
-//   User.create({
-//     nombre : faker.name.firstName(),
-//     apellido : faker.name.lastName(),
-//     email : faker.internet.email(),
-//     password : '12345678',
-//     dni : 37038970,
-//     telefono : 47854514,
-//     imgPerfil : faker.image.imageUrl(),
-//     levelAccess : 'superadmin',
-//     subeId : '2A:5H:AJ:E4'
-//   }).then(console.log)
-// })
-// app.use('/creador',()=>{
-//   Horarios.create({
-//     dias: ['Lunes','Miercoles','Viernes'],
-//     fechaInicio: '2018-10-10',
-//     fechaFin: '2018-12-10',
-//     horarioMin: '100000',
-//     horarioMax: '18:00:00'
-//   }).then(console.log)
-// })
+app.use('/creador', ()=>{
+  User.create({
+    nombre : faker.name.firstName(),
+    apellido : faker.name.lastName(),
+    email : faker.internet.email(),
+    password : '12345678',
+    dni : 37038970,
+    telefono : 47854514,
+    imgPerfil : faker.image.imageUrl(),
+    levelAccess : 'superadmin',
+    subeId : '2A:5H:AJ:E4'
+  }).then(user => {
+    Horarios.create({
+      dias: ['Lunes','Miércoles','Viernes'],
+      fechaInicio: 'August 2, 2018',
+      fechaFin: 'August 1, 2019',
+      horarioMin: '08:37:00',
+      horarioMax: '20:27:00',
+    })
+    .then(horario => {
+      user.setHorario(horario);
+    })
+
+  })
+})
 
 app.use('/api/usuarios', userRouter);
 app.use('/*', (req, res) => {

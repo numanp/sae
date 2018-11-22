@@ -1,4 +1,5 @@
 var crypto = require('crypto')
+const Horarios = require('./Horarios')
 
 var db = require('../index');
 const Sequelize = require('sequelize');
@@ -90,5 +91,5 @@ User.prototype.checkPassword = function (password) {
     if (pass == this.password) return true
     return false
 }
-
+User.belongsTo(Horarios)
 module.exports = User
