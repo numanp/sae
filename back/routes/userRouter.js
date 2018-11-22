@@ -10,7 +10,6 @@ router.get('/', (req, res) => {//trae todos los usuarios. Falta incluir los dato
                 
         res.send(users)})
 })
-<<<<<<< HEAD
 router.get('/horario',(req,res) => {
     Horarios.findOne({where:{id:req.query.state}})//aqui tengo que cambiar para que busque por userId
     .then(data=>res.send(data))
@@ -19,7 +18,6 @@ router.put('/horario/update',(req,res)=>{
     Horarios.findById(req.body.userId)
     .then(Horario=>Horario.update(req.body.dateTime))
     })
-=======
 
 router.post('/', (req, res) =>{
   User.create({
@@ -83,5 +81,4 @@ router.put('/makeAdmin/:userId', (req, res) => {
 
 
 
->>>>>>> 4a2355eb9a4c7c13fd1efdcec5d971ad59fdc935
 module.exports = router;
