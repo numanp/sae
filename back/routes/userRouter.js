@@ -8,7 +8,15 @@ router.get('/', (req, res) => {
 })
 
 router.post('/', (req, res) =>{
-  User.create(req.body.user)
+  User.create({
+    nombre : req.body.nombre,
+    apellido: req.body.apellido,
+    email: req.body.email,
+    password: req.body.password,
+    dni: req.body.dni,
+    telefono: req.body.telefono,
+    subeId: req.body.subeId,
+  })
   .then(user => res.send(user))
 })
 
@@ -18,20 +26,28 @@ router.get('/:userid', (req, res) => {
   .then(user => res.send(user))
 }) //OK
 
-router.delete('/:userId', (req, res) => {
-  User.destroy({ where: { id: req.params.userId } }).then(() => {
-    res.status(200).send('OK');
+router.delete('/', (req, res) => {
+  let id = req.query.id
+  User.destroy({ where: { id: id } }).then(() => {
+    res.status(200).send('usuario borrado');
   });
-}); //OK
+});
 
-router.put('/:id', (req, res) => {
-  User.findById(req.params.id)
+router.put('/', (req, res) => {
+  User.findById(req.body.id)
     .then(user => {
-      user.update(req.body, { fields: ['nombre', 'apellido', 'email', 'password', 'dni', 'telefono', 'imgPerfil'] });
+      user.update({
+        nombre : req.body.nombre,
+        apellido: req.body.apellido,
+        email: req.body.email,
+        password: req.body.password,
+        dni: req.body.dni,
+        telefono: req.body.telefono,
+        subeId: req.body.subeId,
+      })
     })
-    .then(() => {
-      res.status(200).send('usuario modificado exitosamente');
-    });
+    .then(()=>res.sendStatus(200))
+    
 });
 
 router.put('/subeId', (req, res) => {

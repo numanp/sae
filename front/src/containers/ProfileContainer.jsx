@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { getUser, removeUser, makeUserAdmin, remplaceIdSube, updateUser, createUser } from '../redux/actions/userActions';
+import axios from 'axios'
 
 import UserForm from '../components/UserForm'
 
@@ -23,6 +24,8 @@ class ProfileContainer extends Component {
         }
         this.handleSwitch = this.handleSwitch.bind(this)
         this.handleChange = this.handleChange.bind(this)
+        this.handleSubmit = this.handleSubmit.bind(this)
+        this.deleteUser = this.deleteUser.bind(this)
     }
 
     componentDidMount() {
@@ -31,7 +34,7 @@ class ProfileContainer extends Component {
     }
     componentWillReceiveProps(nextProps){
         this.setState({
-            controledUser : nextProps.user.user
+            controledUser : nextProps.user
         })
     }
 
@@ -42,7 +45,6 @@ class ProfileContainer extends Component {
 
     handleChange(e){
         e.preventDefault();
-        console.log('HOLAAA', e.target)
         let keyValue = e.target.id
         let value = e.target.value
         this.setState({
@@ -53,19 +55,34 @@ class ProfileContainer extends Component {
         })
     }
 
+    handleSubmit(e){
+        e.preventDefault();
+        if(this.state.controledUser.id){
+            axios.put('/api/usuarios/', this.state.controledUser)
+            .then(alert('Se ha modificado el usuario correctamente'))
+        } else {
+            this.props.createUser(this.state.controledUser)
+        }
+    }
 
+    deleteUser(e){
+        e.preventDefault();
+        axios.delete('/api/usuarios/',{ params: {id: this.state.controledUser.id} })
+        .then(<Redirect to='/'/>)
+
+    }
 
     render() {
-        console.log(this.state)
+        console.log('STATEEEE', this.state)
         return(
-                <UserForm switcher={this.state.switcher} user={this.state.controledUser} handleSwitch={this.handleSwitch} handleChange={this.handleChange} saveChanges={this.props.updateUser} deleteUser={this.props.removeUser} changeSube={this.props.remplaceIdSube} handleSubmit={this.props.createUser}/>
+                <UserForm switcher={this.state.switcher} user={this.state.controledUser} handleSwitch={this.handleSwitch} handleChange={this.handleChange} deleteUser={this.deleteUser} changeSube={this.remplaceIdSube} handleSubmit={this.handleSubmit}/>
         )
     }
 }
 
 function mapStateToProps(state, ownProps){
     return {
-        user: state.user
+        user: state.user.user
     }
 }
 function mapDispatchToProps(dispatch, ownProps){
@@ -73,17 +90,11 @@ function mapDispatchToProps(dispatch, ownProps){
         getUser: (userId) => {
             dispatch(getUser(userId));
           },
-        removeUser: userId => {
-            dispatch(removeUser(userId));
-          },
         makeUserAdmin: userId => {
             dispatch(makeUserAdmin(userId));
           },
         remplaceIdSube: userId => {
             dispatch(remplaceIdSube(userId))
-        },
-        updateUser: userId => {
-            dispatch(updateUser(userId))
         },
         createUser: controledUser => {
             dispatch(createUser(controledUser))

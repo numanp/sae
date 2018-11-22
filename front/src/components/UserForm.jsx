@@ -7,7 +7,7 @@ import Grid from '@material-ui/core/Grid';
 
 
 
-export default ({user, handleSubmit, saveChanges, deleteUser, changeSUBE, handleSwitch, switcher, handleChange}) => (
+export default ({user, handleSubmit, deleteUser, changeSUBE, handleSwitch, switcher, handleChange}) => (
     <Grid container spacing={24}>
         <Grid item xs={2}>
             <img className="profile-pic" src={`${user.imgPerfil}`} alt=""/><br/>
@@ -99,10 +99,10 @@ export default ({user, handleSubmit, saveChanges, deleteUser, changeSUBE, handle
             </Grid>
         </Grid>
         <Grid container spacing={16} xs={2}>
-            <Grid item xs={12}> <Button fullWidth variant="contained" color="primary"> {user ? 'Guardar modificaciones' : 'Guardar usuario'} </Button> </Grid>
+            <Grid item xs={12}> <Button fullWidth variant="contained" color="primary" onClick={handleSubmit}> {user.name ? 'Guardar modificaciones' : 'Guardar usuario'} </Button> </Grid>
             <Grid item xs={12}> <Button fullWidth variant="contained" color="default">Cambiar horarios</Button> </Grid>
-            {user ? <Grid item xs={12}> <Button fullWidth variant="contained" color="secondary"> Cambiar sube </Button> </Grid>: null }
-            {user ? <Grid item xs={12}> <Button fullWidth variant="contained" color="secondary"> Eliminar usuario </Button> </Grid> : null}
+            {user ? <Grid item xs={12}> <Button fullWidth variant="contained" color="secondary" type="submit"> Cambiar sube </Button> </Grid>: null }
+            {user ? <Grid item xs={12}> <Button fullWidth variant="contained" color="secondary" onClick={deleteUser} > Eliminar usuario </Button> </Grid> : null}
         </Grid>
         <Grid container xs={10}> 
             <FormControlLabel
