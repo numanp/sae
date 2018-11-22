@@ -35,6 +35,7 @@ const User = require('./db/models/User');
 const Horarios = require('./db/models/Horarios')
 
 
+<<<<<<< HEAD
 //ROUTES
 app.use('/creador', ()=>{
   User.create({
@@ -61,6 +62,31 @@ app.use('/creador', ()=>{
 
   })
 })
+=======
+// //ROUTES
+// app.use('/creador', ()=>{
+//   User.create({
+//     nombre : faker.name.firstName(),
+//     apellido : faker.name.lastName(),
+//     email : faker.internet.email(),
+//     password : '12345678',
+//     dni : 37038970,
+//     telefono : 47854514,
+//     imgPerfil : faker.image.imageUrl(),
+//     levelAccess : 'superadmin',
+//     subeId : '2A:5H:AJ:E4'
+//   }).then(console.log)
+// })
+// app.use('/creador',()=>{
+//   Horarios.create({
+//     dias: ['Lunes','Miercoles','Viernes'],
+//     fechaInicio: '2018-10-10',
+//     fechaFin: '2018-12-10',
+//     horarioMin: '100000',
+//     horarioMax: '18:00:00'
+//   }).then(console.log)
+// })
+>>>>>>> 4a2355eb9a4c7c13fd1efdcec5d971ad59fdc935
 
 app.use('/api/usuarios', userRouter);
 app.use('/*', (req, res) => {
