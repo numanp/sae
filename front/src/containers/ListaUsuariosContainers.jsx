@@ -68,8 +68,10 @@ class ListaUsuariosContainer extends React.Component {
           };
           this.handleChange=this.handleChange.bind(this);
     }
-componentDidMount(){
-    this.props.fetchUsers()
+componentDidMount(){  
+    this.props.users.length ? this.setState({lista: this.props.users}) :
+    this.props.fetchUsers();
+  
 };
   handleChangePage = (event, page) => {
     this.setState({ page });
@@ -95,7 +97,8 @@ componentDidMount(){
   }
   render() {
     const { classes,users } = this.props;
-    const { lista, rowsPerPage, page } = this.state;
+    const { lista, rowsPerPage, page } = this.state;  
+    
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, (lista[0] ? lista.length : 0) - page * rowsPerPage);   
 
     return (
