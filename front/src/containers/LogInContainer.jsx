@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux'
 import { Paper, withStyles, Grid, TextField, Button, FormControlLabel, Checkbox } from '@material-ui/core';
-import PropTypes from 'prop-types';
+import { loginUser } from '../redux/actions/userActions.js';
 
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import ContraseñaIcon from '@material-ui/icons/VpnKey'
@@ -16,8 +16,32 @@ const styles = theme => ({
 });
 
 class LogIn extends React.Component {
+    constructor(props){
+        super(props)
+        this.state = {
+            email : '',
+            password : ''
+        }
+        this.handleSubmit = this.handleSubmit.bind(this)
+        this.handleChange = this.handleChange.bind(this)
+    }
+    handleChange(evt){
+        evt.preventDefault();
+        const key = evt.target.id
+        const value = evt.target.value 
+        this.setState({
+            ...this.state,
+            [key] : value
+        })
+    }
+    handleSubmit(evt){
+        evt.preventDefault();
+        
+        this.props.sendLogInfo(this.state.email, this.state.password)
+
+    }
     render() {
-        // const { classes, theme } = this.props;
+        console.log(this.props)
         return (
             <Paper style={{width: '25%', margin: '0 auto'}}>
                 <form>
@@ -26,7 +50,7 @@ class LogIn extends React.Component {
                             <AccountCircle />
                         </Grid>
                         <Grid item md={true} sm={true} xs={true}>
-                            <TextField id="username" label="email" type="email"  autoFocus required />
+                            <TextField onChange={(evt)=>this.handleChange(evt)} id="email" label="email" type="email"  autoFocus required />
                         </Grid>
                     </Grid>
                     <Grid container  alignItems="flex-end">
@@ -34,7 +58,7 @@ class LogIn extends React.Component {
                             <ContraseñaIcon />
                         </Grid>
                         <Grid item md={true} sm={true} xs={true}>
-                            <TextField id="current-password" label="password" type="current-password"  required />
+                            <TextField onChange={(evt)=>this.handleChange(evt)} id="password" label="password" type="password"  required />
                         </Grid>
                     </Grid>
                     <Grid container alignItems="center" justify="space-between">
@@ -50,7 +74,7 @@ class LogIn extends React.Component {
                         </Grid>
                     </Grid>
                     <Grid container justify="center" style={{ marginTop: '10px' }}>
-                        <Button variant="outlined" color="primary" style={{ textTransform: "none" }}>Login</Button>
+                        <Button variant="outlined" color="primary" style={{ textTransform: "none" }} onClick={this.handleSubmit} >Login</Button>
                     </Grid>
                 </form>
             </Paper>
@@ -60,14 +84,15 @@ class LogIn extends React.Component {
 
 function mapStateToProps(state){
     return {
-
+        loggedUser : state.loggedUser
     }
 }
 
 function mapDispatchToProps(dispatch){
     return{
-
-        
+        sendLogInfo : function(email, password){
+            dispatch(loginUser(email, password))
+        }
     }
 }
 
