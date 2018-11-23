@@ -30,7 +30,10 @@ class ProfileContainer extends Component {
     }
 
     componentDidMount() {
-        this.props.getUser(1)
+        var aux = this.props.match.params.id
+        if(aux){
+            this.props.getUser(aux)
+        }
         
     }
     componentWillReceiveProps(nextProps){
@@ -59,7 +62,7 @@ class ProfileContainer extends Component {
     handleSubmit(e){
         e.preventDefault();
         if(this.state.controledUser.id){            
-            this.props.updateDateAndTime(1,{
+            this.props.updateDateAndTime(this.props.match.params.id,{
                 dias:this.props.horarios.dias,
                 fechaInicio:this.props.horarios.selectedDateInicio,
                 fechaFin:this.props.horarios.selectedDateFin,

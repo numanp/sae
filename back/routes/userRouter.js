@@ -1,13 +1,30 @@
 const express = require('express');
 const router = express.Router();
 const User = require('../db/models/User');
-const passport = require('passport')
+const passport = require('passport');
+const Horarios = require('../db/models/Horarios')
 
 
 //Trae todos los usuarios y los envia en un arreglo
 router.get('/', (req, res) => {
-    User.findAll()
+    User.findAll({include:[Horarios]})
     .then(users => res.send(users))
+})
+router.get('/horario',(req,res) => {
+    Horarios.findById(req.query.state)
+    .then(data => res.send(data))
+})
+router.put('/horario/update',(req,res) => {
+    Horarios.findById(req.body.userId)
+    .then(horario => 
+      horario.update({
+        dias:req.body.dateTime.dias,
+        fechaInicio: req.body.dateTime.fechaInicio,
+        horarioMin: req.body.dateTime.horarioMin,
+        fechaFin: req.body.dateTime.fechaFin,
+        horarioMax: req.body.dateTime.horarioMax,
+      })
+      )
 })
 //crea un usuario y lo envia
 router.post('/', (req, res) =>{

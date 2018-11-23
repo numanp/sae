@@ -113,7 +113,7 @@ componentDidMount(){
             <TableBody>
               {lista[0] && lista.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row => {
                 return (
-                  <TableRow key={row.id} hover >
+                  <TableRow key={row.id} hover onClick={() => this.props.push(`/userProfile/${row.id}`)}>
                     <TableCell component="th" scope="row">
                       {row.nombreCompleto}
                     </TableCell>
@@ -149,9 +149,10 @@ componentDidMount(){
   }
 }
 
-function mapStateToProps(state){
+function mapStateToProps(state, ownProps){
   return {
     users: state.users,
+    push: ownProps.history.push
   }
 }
 function mapDispatchToProps(dispatch){
