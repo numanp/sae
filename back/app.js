@@ -78,7 +78,7 @@ function(username, password, done) {
       if (!user) {
         return done(null, false, { message: 'Incorrect username.' });
       }
-      if (user.passwordHash(password, user.salt) != user.password) {
+      if (user.passHash(password, user.salt) != user.password) {
         return done(null, false, { message: 'Incorrect password.' });
       }
       return done(null, user);

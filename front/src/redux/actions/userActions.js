@@ -45,9 +45,8 @@ export const remplaceIdSube = (userId) => (dispatch) => {
     .then(data => dispatch(idSubeChange(data)))
 }
 export const loginUser = (email, password) => dispatch => {
-    axios.post('/api/usuarios/login/', {email, password})
+    axios.post('/api/usuarios/login', {email, password})
     .then(res=>res.data)
     .then(user=>dispatch(loggedUser(user)))
     .catch(e=>console.log('entró al catch'))
 }
-
