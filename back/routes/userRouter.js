@@ -55,7 +55,6 @@ router.delete('/', (req, res) => {
 });
 //modifica un usuario especifico. (id en el body)
 router.put('/', (req, res) => {
-  console.log(req.body)
   User.findById(req.body.id)
     .then(user => {
       user.update({
