@@ -32,6 +32,8 @@ router.post('/', (req, res) =>{
     nombre : req.body.nombre,
     apellido: req.body.apellido,
     email: req.body.email,
+    imgPerfil: req.body.imgPerfil,
+    levelAccess: req.body.levelAccess,
     password: req.body.password,
     dni: req.body.dni,
     telefono: req.body.telefono,
@@ -53,13 +55,14 @@ router.delete('/', (req, res) => {
 });
 //modifica un usuario especifico. (id en el body)
 router.put('/', (req, res) => {
-  console.log(req.body)
   User.findById(req.body.id)
     .then(user => {
       user.update({
         nombre : req.body.nombre,
         apellido: req.body.apellido,
         email: req.body.email,
+        imgPerfil: req.body.imgPerfil,
+        levelAccess: req.body.levelAccess,
         password: req.body.password,
         dni: req.body.dni,
         telefono: req.body.telefono,

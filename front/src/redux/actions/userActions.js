@@ -4,10 +4,7 @@ const oneUser = (user) => ({
     type:'FETCH_USER',
     user
 }) 
-const userAdmin = (userAdmin) => ({
-    type:'MAKE_ADMIN',
-    userAdmin
-}) 
+
 const idSubeChange = (changeSube) => ({
     type: 'CHANGE_SUBE',
     changeSube

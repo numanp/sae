@@ -20,16 +20,18 @@ class ProfileContainer extends Component {
                 levelAccess: '',
                 password: '',
                 subeId: '',
-                telefono: 0
+                telefono: 0,
             }
         }
         this.handleSwitch = this.handleSwitch.bind(this)
         this.handleChange = this.handleChange.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
         this.deleteUser = this.deleteUser.bind(this)
+        // this.handleAdminMaker = this.handleAdminMaker.bind(this)
     }
 
     componentDidMount() {
+
         var aux = this.props.match.params.id
         if(aux){
             this.props.getUser(aux)
@@ -48,6 +50,7 @@ class ProfileContainer extends Component {
     }
 
     handleChange(e){
+        console.log('HANDLECHANGEE', e.target.name)
         e.preventDefault();
         let keyValue = e.target.id
         let value = e.target.value
@@ -85,7 +88,7 @@ class ProfileContainer extends Component {
 
     render() {
         return(
-                <UserForm switcher={this.state.switcher} user={this.state.controledUser} handleSwitch={this.handleSwitch} handleChange={this.handleChange} deleteUser={this.deleteUser} changeSube={this.remplaceIdSube} handleSubmit={this.handleSubmit}/>
+                <UserForm switcher={this.state.switcher} user={this.state.controledUser} handleSwitch={this.handleSwitch} handleChange={this.handleChange} deleteUser={this.deleteUser} changeSube={this.remplaceIdSube} handleSubmit={this.handleSubmit} handleAdminMaker={this.handleAdminMaker}/>
         )
     }
 }
@@ -101,9 +104,7 @@ function mapDispatchToProps(dispatch, ownProps){
         getUser: (userId) => {
             dispatch(getUser(userId));
           },
-        makeUserAdmin: userId => {
-            dispatch(makeUserAdmin(userId));
-          },
+
         remplaceIdSube: userId => {
             dispatch(remplaceIdSube(userId))
         },

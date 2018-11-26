@@ -5,10 +5,11 @@ import Switch from '@material-ui/core/Switch';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Grid from '@material-ui/core/Grid';
 import Horarios from './Horarios';
-
+import RadioAdminContainer from  '../containers/RadioAdminContainer'
 
 
 export default ({user, handleSubmit, deleteUser, changeSUBE, handleSwitch, switcher, handleChange}) => (
+
     <Grid container spacing={24}>
         <Grid item xs={2}>
             <img className="profile-pic" src={`${user.imgPerfil}`} alt=""/><br/>
@@ -105,6 +106,10 @@ export default ({user, handleSubmit, deleteUser, changeSUBE, handleSwitch, switc
             {user ? <Grid item xs={12}> <Button fullWidth variant="contained" color="secondary" type="submit"> Cambiar sube </Button> </Grid>: null }
             {user ? <Grid item xs={12}> <Button fullWidth variant="contained" color="secondary" onClick={deleteUser} > Eliminar usuario </Button> </Grid> : null}
         </Grid>
+    
+        <RadioAdminContainer handleChange={handleChange} user={user.levelAccess}/>
+
+
         <Grid container xs={10}> 
             <FormControlLabel
                 labelPlacement="top"
