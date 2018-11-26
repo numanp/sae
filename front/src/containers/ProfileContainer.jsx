@@ -4,6 +4,7 @@ import { getUser, removeUser, makeUserAdmin, remplaceIdSube, updateUser, createU
 import axios from 'axios'
 
 import UserForm from '../components/UserForm'
+import { updateDateAndTime } from '../redux/actions/horariosActions'
 
 class ProfileContainer extends Component {
     constructor (props){
@@ -19,17 +20,22 @@ class ProfileContainer extends Component {
                 levelAccess: '',
                 password: '',
                 subeId: '',
-                telefono: 0
+                telefono: 0,
             }
         }
         this.handleSwitch = this.handleSwitch.bind(this)
         this.handleChange = this.handleChange.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
         this.deleteUser = this.deleteUser.bind(this)
+        // this.handleAdminMaker = this.handleAdminMaker.bind(this)
     }
 
     componentDidMount() {
-        this.props.getUser(1)
+
+        var aux = this.props.match.params.id
+        if(aux){
+            this.props.getUser(aux)
+        }
         
     }
     componentWillReceiveProps(nextProps){
@@ -44,6 +50,7 @@ class ProfileContainer extends Component {
     }
 
     handleChange(e){
+        console.log('HANDLECHANGEE', e.target.name)
         e.preventDefault();
         let keyValue = e.target.id
         let value = e.target.value
@@ -57,7 +64,14 @@ class ProfileContainer extends Component {
 
     handleSubmit(e){
         e.preventDefault();
-        if(this.state.controledUser.id){
+        if(this.state.controledUser.id){            
+            this.props.updateDateAndTime(this.props.match.params.id,{
+                dias:this.props.horarios.dias,
+                fechaInicio:this.props.horarios.selectedDateInicio,
+                fechaFin:this.props.horarios.selectedDateFin,
+                horarioMin:this.props.horarios.selectedTimeMin.toString().slice(15,24),
+                horarioMax: this.props.horarios.selectedTimeMax.toString().slice(15,24)
+                })
             axios.put('/api/usuarios/', this.state.controledUser)
             .then(alert('Se ha modificado el usuario correctamente'))
         } else {
@@ -73,16 +87,16 @@ class ProfileContainer extends Component {
     }
 
     render() {
-        console.log('STATEEEE', this.state)
         return(
-                <UserForm switcher={this.state.switcher} user={this.state.controledUser} handleSwitch={this.handleSwitch} handleChange={this.handleChange} deleteUser={this.deleteUser} changeSube={this.remplaceIdSube} handleSubmit={this.handleSubmit}/>
+                <UserForm switcher={this.state.switcher} user={this.state.controledUser} handleSwitch={this.handleSwitch} handleChange={this.handleChange} deleteUser={this.deleteUser} changeSube={this.remplaceIdSube} handleSubmit={this.handleSubmit} handleAdminMaker={this.handleAdminMaker}/>
         )
     }
 }
 
 function mapStateToProps(state, ownProps){
     return {
-        user: state.user.user
+        user: state.user.user,
+        horarios:state.horarios,
     }
 }
 function mapDispatchToProps(dispatch, ownProps){
@@ -90,15 +104,16 @@ function mapDispatchToProps(dispatch, ownProps){
         getUser: (userId) => {
             dispatch(getUser(userId));
           },
-        makeUserAdmin: userId => {
-            dispatch(makeUserAdmin(userId));
-          },
+
         remplaceIdSube: userId => {
             dispatch(remplaceIdSube(userId))
         },
         createUser: controledUser => {
             dispatch(createUser(controledUser))
-        } 
+        },
+        updateDateAndTime: function(userId,dateTime){
+            dispatch(updateDateAndTime(userId,dateTime))
+        }
     }
 }
 

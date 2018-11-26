@@ -6,10 +6,30 @@ const passport = require('passport')
 router.get('/me', (req, res) => {
   req.user ? res.send(req.user) : res.sendStatus(404);
 })
+
+const Horarios = require('../db/models/Horarios')
+
+
 //Trae todos los usuarios y los envia en un arreglo
 router.get('/', (req, res) => {
-    User.findAll()
+    User.findAll({include:[Horarios]})
     .then(users => res.send(users))
+})
+router.get('/horario',(req,res) => {
+    Horarios.findById(req.query.state)
+    .then(data => res.send(data))
+})
+router.put('/horario/update',(req,res) => {
+    Horarios.findById(req.body.userId)
+    .then(horario => 
+      horario.update({
+        dias:req.body.dateTime.dias,
+        fechaInicio: req.body.dateTime.fechaInicio,
+        horarioMin: req.body.dateTime.horarioMin,
+        fechaFin: req.body.dateTime.fechaFin,
+        horarioMax: req.body.dateTime.horarioMax,
+      })
+      )
 })
 //crea un usuario y lo envia
 router.post('/', (req, res) =>{
@@ -17,6 +37,8 @@ router.post('/', (req, res) =>{
     nombre : req.body.nombre,
     apellido: req.body.apellido,
     email: req.body.email,
+    imgPerfil: req.body.imgPerfil,
+    levelAccess: req.body.levelAccess,
     password: req.body.password,
     dni: req.body.dni,
     telefono: req.body.telefono,
@@ -38,13 +60,14 @@ router.delete('/', (req, res) => {
 });
 //modifica un usuario especifico. (id en el body)
 router.put('/', (req, res) => {
-  console.log(req.body)
   User.findById(req.body.id)
     .then(user => {
       user.update({
         nombre : req.body.nombre,
         apellido: req.body.apellido,
         email: req.body.email,
+        imgPerfil: req.body.imgPerfil,
+        levelAccess: req.body.levelAccess,
         password: req.body.password,
         dni: req.body.dni,
         telefono: req.body.telefono,

@@ -33,6 +33,7 @@ class Main extends React.Component{
                     <Route path='/horarios' component={Horarios} />
                     <Route path='/lista' component={ListaUsuarios} />    
                     <Route path='/login' component={LogIn} />
+                    <Route path='/userProfile/:id' component={ProfileContainer} />
                     <Route path='/userProfile' component={ProfileContainer} />
                 </Switch>
                 

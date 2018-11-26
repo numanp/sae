@@ -16,11 +16,11 @@ const Horarios = db.define('horarios',{
         allowNull: false
     },
     horarioMin: {
-        type: Sequelize.TIME,
+        type: Sequelize.STRING,
         allowNull: false
     },
     horarioMax: {
-        type: Sequelize.TIME,
+        type: Sequelize.STRING,
         allowNull: false
     }
 })
