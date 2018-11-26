@@ -20,6 +20,8 @@ import ControlDePuertaIcon from '@material-ui/icons/SwapHoriz'
 import ListaDeUsuarios from '@material-ui/icons/AccountCircle'
 import HistorialDeAccesos from '@material-ui/icons/ChromeReaderMode'
 import ListItemText from '@material-ui/core/ListItemText';
+import { Link } from 'react-router-dom';
+import ListaUsuariosContainers from './ListaUsuariosContainers';
 
 import { createMuiTheme } from '@material-ui/core/styles';
 
@@ -98,7 +100,8 @@ const styles = theme => ({
   },
   menuSideBar2: {
     primary: '#ffffff',
-    color: '#ffffff'
+    color: '#ffffff',
+    textDecoration : 'none'
   },
   iconsColor: {
     color: 'white'
@@ -107,6 +110,7 @@ const styles = theme => ({
     backgroundColor: 'white',
     boxShadow: '0 20px 20px -20px #333'
   }
+
 });
 
 class NavbarSidebarContainer extends React.Component {
@@ -177,12 +181,13 @@ class NavbarSidebarContainer extends React.Component {
           
             {['Control de puerta', 'Lista de Usuarios', 'Historial de acceso'].map((text, index) => (
               
-
+              <Link className={ classes.menuSideBar2 } to={index == 0 ? "/puerta" : index == 1 ? "/lista" : "/historial"}>
               <ListItem className={ classes.menuSideBar2 } button key={text}>{index == 0 ? <ControlDePuertaIcon /> : index == 1 ? <ListaDeUsuarios /> : <HistorialDeAccesos /> }
                 <ListItemIcon className = {classes.iconsColor}> </ListItemIcon>
                 <ListItemText disableTypography
         primary={<Typography type="body2" style={{ color: '#FFFFFF', fontFamily: 'Roboto' }}>{text}</Typography>} />
               </ListItem>
+              </Link>
             
             ))}
           </List>

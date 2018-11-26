@@ -88,7 +88,7 @@ class ProfileContainer extends Component {
 
     render() {
         return(
-                <UserForm switcher={this.state.switcher} user={this.state.controledUser} handleSwitch={this.handleSwitch} handleChange={this.handleChange} deleteUser={this.deleteUser} changeSube={this.remplaceIdSube} handleSubmit={this.handleSubmit} handleAdminMaker={this.handleAdminMaker}/>
+                <UserForm logout={this.props.logOut} switcher={this.state.switcher} user={this.state.controledUser} handleSwitch={this.handleSwitch} handleChange={this.handleChange} deleteUser={this.deleteUser} changeSube={this.remplaceIdSube} handleSubmit={this.handleSubmit} handleAdminMaker={this.handleAdminMaker}/>
         )
     }
 }
@@ -113,6 +113,9 @@ function mapDispatchToProps(dispatch, ownProps){
         },
         updateDateAndTime: function(userId,dateTime){
             dispatch(updateDateAndTime(userId,dateTime))
+        },
+        logOut : function(){
+            dispatch(logOutUser())
         }
     }
 }
