@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
@@ -20,6 +21,7 @@ import ControlDePuertaIcon from '@material-ui/icons/SwapHoriz'
 import ListaDeUsuarios from '@material-ui/icons/AccountCircle'
 import HistorialDeAccesos from '@material-ui/icons/ChromeReaderMode'
 import ListItemText from '@material-ui/core/ListItemText';
+
 
 import { createMuiTheme } from '@material-ui/core/styles';
 
@@ -94,7 +96,7 @@ const styles = theme => ({
   //ACA EMPIEZAN LOS ESTILOS PERSONALIZADOS
 
   menuSideBar1: {
-    backgroundColor: '#8e0c2d',
+    backgroundColor: '#c62b52',
   },
   menuSideBar2: {
     primary: '#ffffff',
@@ -172,19 +174,25 @@ class NavbarSidebarContainer extends React.Component {
             </IconButton>
           </div>
         {/* ------------------------------------- */}
-          <Divider  />
+        <Divider className={classes.dividerColor} />
           <List className={ classes.menuSideBar1 }>
-          
-            {['Control de puerta', 'Lista de Usuarios', 'Historial de acceso'].map((text, index) => (
-              
 
-              <ListItem className={ classes.menuSideBar2 } button key={text}>{index == 0 ? <ControlDePuertaIcon /> : index == 1 ? <ListaDeUsuarios /> : <HistorialDeAccesos /> }
-                <ListItemIcon className = {classes.iconsColor}> </ListItemIcon>
-                <ListItemText disableTypography
-        primary={<Typography type="body2" style={{ color: '#FFFFFF', fontFamily: 'Roboto' }}>{text}</Typography>} />
-              </ListItem>
-            
-            ))}
+              <ListItem button component={Link} to="/"> 
+              <ControlDePuertaIcon className = {classes.iconsColor}></ControlDePuertaIcon>
+               <ListItemText disableTypography primary={<Typography type="body2" style={{ color: '#FFFFFF', fontFamily: 'Roboto' }}>Control de puerta</Typography>} />
+             </ListItem>
+             
+             <ListItem button component={Link} to="/lista"> 
+             <ListaDeUsuarios className = {classes.iconsColor}></ListaDeUsuarios>
+             <ListItemText disableTypography primary={<Typography type="body2" style={{ color: '#FFFFFF', fontFamily: 'Roboto' }}>Lista de Usuarios</Typography>} />
+               
+             </ListItem>
+
+             <ListItem button component={Link} to="/horarios"> 
+              <HistorialDeAccesos className = {classes.iconsColor}></HistorialDeAccesos>
+              <ListItemText disableTypography primary={<Typography type="body2" style={{ color: '#FFFFFF', fontFamily: 'Roboto' }}>Historial de acceso</Typography>} />
+             </ListItem>
+
           </List>
           <Divider className={classes.dividerColor} />
 
@@ -207,3 +215,16 @@ NavbarSidebarContainer.propTypes = {
 };
 
 export default withStyles(styles, { withTheme: true })(NavbarSidebarContainer);
+
+
+
+
+// {['Control de puerta', 'Lista de Usuarios', 'Historial de acceso'].map((text, index) => (
+
+
+//   <ListItem className={ classes.menuSideBar2 } button key={text}>{index == 0 ? <ControlDePuertaIcon/>  : index == 1 ? <ListaDeUsuarios/> : <HistorialDeAccesos/>}
+//     <ListItemIcon className = {classes.iconsColor}> </ListItemIcon>
+//     <ListItemText disableTypography />
+//   </ListItem>
+
+// ))}
