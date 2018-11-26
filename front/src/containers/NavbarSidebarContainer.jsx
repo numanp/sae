@@ -100,7 +100,8 @@ const styles = theme => ({
   },
   menuSideBar2: {
     primary: '#ffffff',
-    color: '#ffffff'
+    color: '#ffffff',
+    textDecoration : 'none'
   },
   iconsColor: {
     color: 'white'
@@ -109,6 +110,7 @@ const styles = theme => ({
     backgroundColor: 'white',
     boxShadow: '0 20px 20px -20px #333'
   }
+
 });
 
 class NavbarSidebarContainer extends React.Component {
@@ -179,7 +181,7 @@ class NavbarSidebarContainer extends React.Component {
           
             {['Control de puerta', 'Lista de Usuarios', 'Historial de acceso'].map((text, index) => (
               
-              <Link to={index == 0 ? "/puerta" : index == 1 ? "/lista" : "/historial"}>
+              <Link className={ classes.menuSideBar2 } to={index == 0 ? "/puerta" : index == 1 ? "/lista" : "/historial"}>
               <ListItem className={ classes.menuSideBar2 } button key={text}>{index == 0 ? <ControlDePuertaIcon /> : index == 1 ? <ListaDeUsuarios /> : <HistorialDeAccesos /> }
                 <ListItemIcon className = {classes.iconsColor}> </ListItemIcon>
                 <ListItemText disableTypography

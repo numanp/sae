@@ -21,12 +21,15 @@ const loggedUser = loggedUser => ({
     type: 'LOGGED_USER',
     loggedUser
 })
+const setLoggedUser = loggedUser => ({
+    type: 'SET_LOGGED_USER',
+    loggedUser
+})
 export const getUser = (userId) => (dispatch) => {
     axios.get(`/api/usuarios/${userId}`)
     .then(res => res.data)
     .then(data => dispatch(oneUser(data)))
 } 
-
 export const createUser = (user) => (dispatch) => {
     axios.post('/api/usuarios/', user)
     .then(res => res.data)
@@ -49,4 +52,9 @@ export const loginUser = (email, password) => dispatch => {
     .then(res=>res.data)
     .then(user=>dispatch(loggedUser(user)))
     .catch(e=>console.log('entró al catch'))
+}
+export const isLogged = () => dispatch => {
+    axios.get('/api/usuarios/me')
+    .then(user=>dispatch(setLoggedUser(user.data)))
+    .catch(e => console.log(e))
 }

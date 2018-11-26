@@ -2,8 +2,10 @@ const express = require('express');
 const router = express.Router();
 const User = require('../db/models/User');
 const passport = require('passport')
-
-
+//se fija si ya hay un usuario loggeado
+router.get('/me', (req, res) => {
+  req.user ? res.send(req.user) : res.sendStatus(404);
+})
 //Trae todos los usuarios y los envia en un arreglo
 router.get('/', (req, res) => {
     User.findAll()
@@ -86,4 +88,5 @@ router.post('/login', passport.authenticate('local'), (req, res) => {
         }
     }
 )
+
 module.exports = router;
