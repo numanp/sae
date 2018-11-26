@@ -5,10 +5,10 @@ const oneUser = (user) => ({
     user
 }) 
 
-const userAdmin = (userAdmin) => ({
-    type:'MAKE_ADMIN',
-    userAdmin
-}) 
+// const userAdmin = (userAdmin) => ({
+//     type:'MAKE_ADMIN',
+//     userAdmin
+// }) 
 
 const idSubeChange = (changeSube) => ({
     type: 'CHANGE_SUBE',
