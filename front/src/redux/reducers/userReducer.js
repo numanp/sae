@@ -14,6 +14,8 @@ export default (state={},action) => {
             return Object.assign({}, state, {loggedUser : action.loggedUser})
         case 'SET_LOGGED_USER':
             return Object.assign({}, state, {loggedUser : action.loggedUser})
+        case 'END_SESSION':
+            return Object.assign({}, state , {loggedUser : action.loggedUser})
         default:
             return state;
     }

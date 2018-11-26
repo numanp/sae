@@ -2,14 +2,17 @@ const express = require('express');
 const router = express.Router();
 const User = require('../db/models/User');
 const passport = require('passport')
-//se fija si ya hay un usuario loggeado
+const Horarios = require('../db/models/Horarios')
+
+//se fija si ya hay un usuario loggeado y lo manda si lo hubiere
 router.get('/me', (req, res) => {
   req.user ? res.send(req.user) : res.sendStatus(404);
 })
-
-const Horarios = require('../db/models/Horarios')
-
-
+//desloguea al usuario logueado
+router.get('/logout', (req, res) =>{
+  req.logout();
+  res.send('Usuario deslogeado');
+})
 //Trae todos los usuarios y los envia en un arreglo
 router.get('/', (req, res) => {
     User.findAll({include:[Horarios]})
@@ -111,5 +114,4 @@ router.post('/login', passport.authenticate('local'), (req, res) => {
         }
     }
 )
-
 module.exports = router;

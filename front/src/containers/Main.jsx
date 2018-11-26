@@ -32,13 +32,14 @@ class Main extends React.Component{
                     <Switch>
                         {(this.props.loggedUser) ? (
                             <div> 
+                                
                                 <Route path='/horarios' component={Horarios} />
                                 <Route path='/lista' component={ListaUsuarios} />    
                                 <Route path='/userProfile/:id' component={ProfileContainer} />
                                 <Route exact path='/userProfile' component={ProfileContainer} />
                             </div>) 
                             :
-                            <Route path='/login' component={LogIn} />
+                            <Route path='/' component={LogIn} />
                         }
                     </Switch>
                 </div>
@@ -57,6 +58,9 @@ function mapDispatchToProps(dispatch){
     return{
         isLogged : function(){
             dispatch(isLogged())
+        },
+        logOut : function(){
+            dispatch(logOutUser())
         }
     }
 };

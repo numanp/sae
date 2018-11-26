@@ -18,9 +18,15 @@ const loggedUser = loggedUser => ({
     type: 'LOGGED_USER',
     loggedUser
 })
+//trae el usuario logueado y lo carga en el store
 const setLoggedUser = loggedUser => ({
     type: 'SET_LOGGED_USER',
     loggedUser
+})
+//desloguea
+const endSession = () => ({
+    type : 'END_SESSION',
+    loggedUser : {}
 })
 export const getUser = (userId) => (dispatch) => {
     axios.get(`/api/usuarios/${userId}`)
@@ -54,4 +60,8 @@ export const isLogged = () => dispatch => {
     axios.get('/api/usuarios/me')
     .then(user=>dispatch(setLoggedUser(user.data)))
     .catch(e => console.log(e))
+}
+export const logOutUser = () => dispatch => {
+    axios.get('/api/usuarios/logout')
+    .then(nothing => dispatch(endSession()));
 }
