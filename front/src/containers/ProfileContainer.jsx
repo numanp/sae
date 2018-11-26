@@ -4,6 +4,7 @@ import { getUser, removeUser, makeUserAdmin, remplaceIdSube, updateUser, createU
 import axios from 'axios'
 
 import UserForm from '../components/UserForm'
+import { updateDateAndTime } from '../redux/actions/horariosActions'
 
 class ProfileContainer extends Component {
     constructor (props){
@@ -29,7 +30,10 @@ class ProfileContainer extends Component {
     }
 
     componentDidMount() {
-        this.props.getUser(1)
+        var aux = this.props.match.params.id
+        if(aux){
+            this.props.getUser(aux)
+        }
         
     }
     componentWillReceiveProps(nextProps){
@@ -57,7 +61,14 @@ class ProfileContainer extends Component {
 
     handleSubmit(e){
         e.preventDefault();
-        if(this.state.controledUser.id){
+        if(this.state.controledUser.id){            
+            this.props.updateDateAndTime(this.props.match.params.id,{
+                dias:this.props.horarios.dias,
+                fechaInicio:this.props.horarios.selectedDateInicio,
+                fechaFin:this.props.horarios.selectedDateFin,
+                horarioMin:this.props.horarios.selectedTimeMin.toString().slice(15,24),
+                horarioMax: this.props.horarios.selectedTimeMax.toString().slice(15,24)
+                })
             axios.put('/api/usuarios/', this.state.controledUser)
             .then(alert('Se ha modificado el usuario correctamente'))
         } else {
@@ -73,7 +84,6 @@ class ProfileContainer extends Component {
     }
 
     render() {
-        console.log('STATEEEE', this.state)
         return(
                 <UserForm switcher={this.state.switcher} user={this.state.controledUser} handleSwitch={this.handleSwitch} handleChange={this.handleChange} deleteUser={this.deleteUser} changeSube={this.remplaceIdSube} handleSubmit={this.handleSubmit}/>
         )
@@ -82,7 +92,8 @@ class ProfileContainer extends Component {
 
 function mapStateToProps(state, ownProps){
     return {
-        user: state.user.user
+        user: state.user.user,
+        horarios:state.horarios,
     }
 }
 function mapDispatchToProps(dispatch, ownProps){
@@ -98,7 +109,10 @@ function mapDispatchToProps(dispatch, ownProps){
         },
         createUser: controledUser => {
             dispatch(createUser(controledUser))
-        } 
+        },
+        updateDateAndTime: function(userId,dateTime){
+            dispatch(updateDateAndTime(userId,dateTime))
+        }
     }
 }
 
