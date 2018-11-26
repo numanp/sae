@@ -24,19 +24,23 @@ class Main extends React.Component{
         this.props.isLogged()
     }
     render(){
-        console.log(this.props)
         return (    
                 <div>
                     
-                <NavbarSidebarContainer />
-                <Switch>
-                    <Route path='/horarios' component={Horarios} />
-                    <Route path='/lista' component={ListaUsuarios} />    
-                    <Route path='/login' component={LogIn} />
-                    <Route path='/userProfile/:id' component={ProfileContainer} />
-                    <Route path='/userProfile' component={ProfileContainer} />
-                </Switch>
-                
+                    <NavbarSidebarContainer />
+                   
+                    <Switch>
+                        {(this.props.loggedUser) ? (
+                            <div> 
+                                <Route path='/horarios' component={Horarios} />
+                                <Route path='/lista' component={ListaUsuarios} />    
+                                <Route path='/userProfile/:id' component={ProfileContainer} />
+                                <Route exact path='/userProfile' component={ProfileContainer} />
+                            </div>) 
+                            :
+                            <Route path='/login' component={LogIn} />
+                        }
+                    </Switch>
                 </div>
              
         )
