@@ -85,7 +85,10 @@ User.hook('beforeCreate', (user, options) => {
     user.salt = User.pSalt();
     user.password = user.passHash(user.password, user.salt)
 });
-
+User.hook('beforeUpdate', (user, options) => {
+    user.salt = User.pSalt();
+    user.password = user.passHash(user.password, user.salt)
+});
 User.prototype.checkPassword = function (password) {
     var pass = crypto.createHmac('sha1', this.salt).update(password).digest('hex')
     if (pass == this.password) return true

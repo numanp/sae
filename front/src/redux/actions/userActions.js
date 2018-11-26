@@ -5,21 +5,19 @@ const oneUser = (user) => ({
     user
 }) 
 
-// const userAdmin = (userAdmin) => ({
-//     type:'MAKE_ADMIN',
-//     userAdmin
-// }) 
-
 const idSubeChange = (changeSube) => ({
     type: 'CHANGE_SUBE',
     changeSube
 })
-
 const newUser = (userCreation) => ({
     type: 'CREATE_USER',
     userCreation
 })
-
+//setea el user loggeado como loggedUser en el store
+const loggedUser = loggedUser => ({
+    type: 'LOGGED_USER',
+    loggedUser
+})
 export const getUser = (userId) => (dispatch) => {
     axios.get(`/api/usuarios/${userId}`)
     .then(res => res.data)
@@ -31,9 +29,6 @@ export const createUser = (user) => (dispatch) => {
     .then(res => res.data)
     .then(data => dispatch(newUser(data)))
 }
-
-
-
 export const makeUserAdmin = (userId) => (dispatch) => {
     axios.put(`/api/usuarios/makeAdmin/`,{userId})
     //axios.put(`/api/usuarios/makeAdmin/${userId}`)
@@ -41,10 +36,14 @@ export const makeUserAdmin = (userId) => (dispatch) => {
     .then(data => dispatch(userAdmin(data))
     )
 }
-
 export const remplaceIdSube = (userId) => (dispatch) => {
     axios.put(`/api/usuarios/subeId/`, {userId})
     .then(res => res.data)
     .then(data => dispatch(idSubeChange(data)))
 }
-
+export const loginUser = (email, password) => dispatch => {
+    axios.post('/api/usuarios/login', {email, password})
+    .then(res=>res.data)
+    .then(user=>dispatch(loggedUser(user)))
+    .catch(e=>console.log('entró al catch'))
+}

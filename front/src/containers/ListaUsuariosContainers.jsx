@@ -68,8 +68,10 @@ class ListaUsuariosContainer extends React.Component {
           };
           this.handleChange=this.handleChange.bind(this);
     }
-componentDidMount(){
-    this.props.fetchUsers()
+componentDidMount(){  
+    this.props.users.length ? this.setState({lista: this.props.users}) :
+    this.props.fetchUsers();
+  
 };
   handleChangePage = (event, page) => {
     this.setState({ page });
@@ -95,7 +97,8 @@ componentDidMount(){
   }
   render() {
     const { classes,users } = this.props;
-    const { lista, rowsPerPage, page } = this.state;
+    const { lista, rowsPerPage, page } = this.state;  
+    
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, (lista[0] ? lista.length : 0) - page * rowsPerPage);   
 
     return (
@@ -113,7 +116,7 @@ componentDidMount(){
             <TableBody>
               {lista[0] && lista.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row => {
                 return (
-                  <TableRow key={row.id} hover >
+                  <TableRow key={row.id} hover onClick={() => this.props.push(`/userProfile/${row.id}`)}>
                     <TableCell component="th" scope="row">
                       {row.nombreCompleto}
                     </TableCell>
@@ -149,9 +152,10 @@ componentDidMount(){
   }
 }
 
-function mapStateToProps(state){
+function mapStateToProps(state, ownProps){
   return {
     users: state.users,
+    push: ownProps.history.push
   }
 }
 function mapDispatchToProps(dispatch){

@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { fetchDateAndTime, updateDateAndTime } from '../redux/actions/horariosActions'
+import { fetchDateAndTime, updateDateInicio,updateDateFin, updateTimeInicio, updateTimeFin } from '../redux/actions/horariosActions'
 import { InlineDatePicker, InlineTimePicker } from 'material-ui-pickers';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
@@ -9,6 +9,7 @@ import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
 import classNames from 'classnames';
 import SelectDias from './selectDias';
+import { func } from 'prop-types';
 
 const styles = theme => ({
     button: {
@@ -30,59 +31,37 @@ class Horarios extends PureComponent{
     constructor(props){
         super(props);
     }
-    state = {
-        selectedDateInicio: '',
-        selectedDateFin: '',
-        selectedTimeMin: '',
-        selectedTimeMax: '',
-       
-      };
     componentDidMount(){
-        this.props.fetchDateAndTime(1);  
-    }
-    componentWillReceiveProps(nextProps){        
-        this.setState({selectedDateInicio:nextProps.horarios.selectedDateInicio})           
-        this.setState({selectedTimeMin:nextProps.horarios.selectedTimeMin})  
-        this.setState({selectedDateFin:nextProps.horarios.selectedDateFin}) 
-        this.setState({selectedTimeMax:nextProps.horarios.selectedTimeMax})
-    }
+        console.log(this.props.user.id)
+        
+        this.props.fetchDateAndTime(this.props.user.id);  
+    }   
     //Cada uno de los handleChange* sirve para cambiar el parametro especifico
     // (fecha inicial, fecha final, horario mínimo, horario máximo)
-      handleDateChangeInicio = date => { 
-          console.log(date);
-          
-        this.setState({ selectedDateInicio: date });
+      handleDateChangeInicio = date => {
+        var options = { year: 'numeric', month: 'long', day: 'numeric' };
+        var fI=date.toLocaleDateString('en-US',options);
+        this.props.updateDateInicio(fI)
       };
-      handleDateChangeFin = date => { 
-        this.setState({ selectedDateFin: date });
+      handleDateChangeFin = date => {
+        var options = { year: 'numeric', month: 'long', day: 'numeric' };
+        var fF=date.toLocaleDateString('en-US',options);
+        this.props.updateDateFin(fF);
       };
       handleTimeChangeMin = time => {        
-        this.setState({ selectedTimeMin: time });
+        var tI=time.toLocaleTimeString('en-GB');
+        this.props.updateTimeInicio(tI);
       }
       handleTimeChangeMax = time => {        
-        this.setState({ selectedTimeMax: time });
-      }
-      handleSubmit = e =>{
-          //aquí se parsea la informaciíon para guardar correctamente en la base de datos
-        var options = { year: 'numeric', month: 'long', day: 'numeric' };
-        var fI=this.state.selectedDateInicio.toLocaleDateString('en-US',options);
-        var tI=this.state.selectedTimeMin.toLocaleTimeString('en-GB');
-        var fF=this.state.selectedDateFin.toLocaleDateString('en-US',options);
-        var tF=this.state.selectedTimeMax.toLocaleTimeString('en-GB');
-        this.props.updateDateAndTime(1,{
-            dias:this.props.horarios.dias,
-            fechaInicio:fI,
-            fechaFin:fF,
-            horarioMin:tI,
-            horarioMax:tF  
-        })
+        var tF=time.toLocaleTimeString('en-GB');
+        this.props.updateTimeFin(tF);
       }
 render (){ 
-    const { classes } = this.props;    
+    const { classes, horarios } = this.props;    
     
     return (
         <div className={classes.root}>
-       
+       <Paper className={classes.paper}>
         <Grid container spacing={16}>
         <Grid item sm={12}>
             <SelectDias />        
@@ -93,7 +72,7 @@ render (){
             
             variant="outlined"
             label="Fecha de inicio"
-            value={this.state.selectedDateInicio}
+            value={horarios.selectedDateInicio}
             onChange={this.handleDateChangeInicio}
             format="dd/MM/yyyy"
             mask={[/\d/, /\d/, '/', /\d/, /\d/, '/', /\d/, /\d/, /\d/, /\d/]}
@@ -106,7 +85,7 @@ render (){
             
             variant="outlined"
             label="Fecha de finalización"
-            value={this.state.selectedDateFin}
+            value={horarios.selectedDateFin}
             onChange={this.handleDateChangeFin}
             format="dd/MM/yyyy"
             mask={[/\d/, /\d/, '/', /\d/, /\d/, '/', /\d/, /\d/, /\d/, /\d/]}
@@ -118,7 +97,7 @@ render (){
           <InlineTimePicker
           variant="outlined"
           label="Horario minimo"
-          value={this.state.selectedTimeMin}
+          value={horarios.selectedTimeMin}
           onChange={this.handleTimeChangeMin}
           />
           </Paper>
@@ -128,19 +107,13 @@ render (){
           <InlineTimePicker
           variant="outlined"
           label="Horario máximo"
-          value={this.state.selectedTimeMax}
+          value={horarios.selectedTimeMax}
           onChange={this.handleTimeChangeMax}
           />
           </Paper>
+        </Grid>        
         </Grid>
-        
-        <div>
-            <Button variant="contained" color="primary" className={classes.button} onClick={this.handleSubmit}>
-                Send
-                <Icon className={classes.rightIcon}>send</Icon>
-            </Button>
-        </div>
-        </Grid>
+        </Paper>
         </div>
     )
 }
@@ -148,6 +121,7 @@ render (){
 function mapStateToProps(state){
     return {
         horarios:state.horarios,
+        user: state.user.user
     }
 }
 function mapDispatchToProps(dispatch){
@@ -155,9 +129,18 @@ function mapDispatchToProps(dispatch){
         fetchDateAndTime: function(userID){
             dispatch(fetchDateAndTime(userID))
         },
-        updateDateAndTime: function(userId,dateTime){
-            dispatch(updateDateAndTime(userId,dateTime))
-        }
+        updateDateInicio: function(dateI){
+            dispatch(updateDateInicio(dateI))
+        },
+        updateDateFin: function(dateF){
+            dispatch(updateDateFin(dateF))
+        },
+        updateTimeInicio: function(timeI){
+            dispatch(updateTimeInicio(timeI))
+        },
+        updateTimeFin: function(timeF){
+            dispatch(updateTimeFin(timeF))
+        }        
     }
 }
 export default connect(mapStateToProps,mapDispatchToProps)(withStyles(styles)(Horarios));

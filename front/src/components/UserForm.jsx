@@ -4,7 +4,8 @@ import Button from '@material-ui/core/Button';
 import Switch from '@material-ui/core/Switch';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Grid from '@material-ui/core/Grid';
-import RadioAdminContainer from '../containers/RadioAdminContainer'
+import Horarios from './Horarios';
+import RadioAdminContainer from  '../containers/RadioAdminContainer'
 
 
 export default ({user, handleSubmit, deleteUser, changeSUBE, handleSwitch, switcher, handleChange}) => (
@@ -121,7 +122,11 @@ export default ({user, handleSubmit, deleteUser, changeSUBE, handleSwitch, switc
                     />
                 }
             />
-            {switcher ? 'componente horarios': 'componente logs'}
+            {switcher ?
+                <Grid item xs={10}>
+                 <Horarios />
+                </Grid>
+                 : 'componente logs'}
         </Grid>
         
         
