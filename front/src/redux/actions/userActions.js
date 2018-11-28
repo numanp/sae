@@ -18,12 +18,21 @@ const loggedUser = loggedUser => ({
     type: 'LOGGED_USER',
     loggedUser
 })
+//trae el usuario logueado y lo carga en el store
+const setLoggedUser = loggedUser => ({
+    type: 'SET_LOGGED_USER',
+    loggedUser
+})
+//desloguea
+const endSession = () => ({
+    type : 'END_SESSION',
+    loggedUser : {}
+})
 export const getUser = (userId) => (dispatch) => {
     axios.get(`/api/usuarios/${userId}`)
     .then(res => res.data)
     .then(data => dispatch(oneUser(data)))
 } 
-
 export const createUser = (user) => (dispatch) => {
     axios.post('/api/usuarios/', user)
     .then(res => res.data)
@@ -45,5 +54,14 @@ export const loginUser = (email, password) => dispatch => {
     axios.post('/api/usuarios/login', {email, password})
     .then(res=>res.data)
     .then(user=>dispatch(loggedUser(user)))
-    .catch(e=>console.log('entró al catch'))
+    .catch(e=>alert('Ingresaste mal el usuario o contraseña'))
+}
+export const isLogged = () => dispatch => {
+    axios.get('/api/usuarios/me')
+    .then(user=>dispatch(setLoggedUser(user.data)))
+    .catch(e => console.log(e))
+}
+export const logOutUser = () => dispatch => {
+    axios.get('/api/usuarios/logout')
+    .then(nothing => dispatch(endSession()));
 }

@@ -1,10 +1,18 @@
 const express = require('express');
 const router = express.Router();
 const User = require('../db/models/User');
-const passport = require('passport');
+const passport = require('passport')
 const Horarios = require('../db/models/Horarios')
 
-
+//se fija si ya hay un usuario loggeado y lo manda si lo hubiere
+router.get('/me', (req, res) => {
+  req.user ? res.send(req.user) : res.sendStatus(404);
+})
+//desloguea al usuario logueado
+router.get('/logout', (req, res) =>{
+  req.logout();
+  res.send('Usuario deslogeado');
+})
 //Trae todos los usuarios y los envia en un arreglo
 router.get('/', (req, res) => {
     User.findAll({include:[Horarios]})
@@ -55,7 +63,6 @@ router.delete('/', (req, res) => {
 });
 //modifica un usuario especifico. (id en el body)
 router.put('/', (req, res) => {
-  console.log(req.body)
   User.findById(req.body.id)
     .then(user => {
       user.update({
