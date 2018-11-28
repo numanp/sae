@@ -31,8 +31,10 @@ console.log(path.join(__dirname, '../front/dist'))
 
 //ROUTERS
 const userRouter = require('./routes/userRouter');
+const historyRouter = require('./routes/historyRouter');
 const User = require('./db/models/User');
-const Horarios = require('./db/models/Horarios')
+const Horarios = require('./db/models/Horarios');
+const History = require('./db/models/Histories')
 
 
 //ROUTES
@@ -61,7 +63,21 @@ app.use('/creador', ()=>{
 
   })
 })
+app.use('/droga', () => {
+  const meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
 
+    User.findById(1)
+    .then(user => {
+      History.create({
+        nombre : user.nombre,
+        apellido : user.apellido,
+      })
+      .then(history=> {
+        user.addHistories(history)
+      })
+    })
+})
+app.use('/api/logs', historyRouter);
 app.use('/api/usuarios', userRouter);
 app.use('/*', (req, res) => {
   res.sendFile(path.join(__dirname, '../front/index.html'));
