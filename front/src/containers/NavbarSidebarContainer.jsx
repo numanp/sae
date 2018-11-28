@@ -1,4 +1,6 @@
 import React from 'react';
+import { Redirect } from 'react-router';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
@@ -20,9 +22,10 @@ import ControlDePuertaIcon from '@material-ui/icons/SwapHoriz'
 import ListaDeUsuarios from '@material-ui/icons/AccountCircle'
 import HistorialDeAccesos from '@material-ui/icons/ChromeReaderMode'
 import ListItemText from '@material-ui/core/ListItemText';
-import { Link } from 'react-router-dom';
 import ListaUsuariosContainers from './ListaUsuariosContainers';
 
+import { connect } from 'react-redux';
+import { isLogged, logOutUser } from '../redux/actions/userActions';
 import { createMuiTheme } from '@material-ui/core/styles';
 
 const drawerWidth = 240;
@@ -96,7 +99,7 @@ const styles = theme => ({
   //ACA EMPIEZAN LOS ESTILOS PERSONALIZADOS
 
   menuSideBar1: {
-    backgroundColor: '#8e0c2d',
+    backgroundColor: '#c62b52',
   },
   menuSideBar2: {
     primary: '#ffffff',
@@ -109,6 +112,9 @@ const styles = theme => ({
   dividerColor: {
     backgroundColor: 'white',
     boxShadow: '0 20px 20px -20px #333'
+  },
+  linkProps: {
+    textDecoration: 'none !important'
   }
 
 });
@@ -116,10 +122,18 @@ const styles = theme => ({
 class NavbarSidebarContainer extends React.Component {
   constructor(props){
     super(props)
+    this.state = {
+      open: false,
+    };
+    this.handleLogOut = this.handleLogOut.bind(this)
   }
-  state = {
-    open: false,
-  };
+  
+  handleLogOut(){
+    this.props.logOutUser()
+    .then(()=>
+    console.log('entraaaaa'))
+    this.props.history.push('/login')
+    }
 
   handleDrawerOpen = () => {
     this.setState({ open: true });
@@ -129,8 +143,12 @@ class NavbarSidebarContainer extends React.Component {
     this.setState({ open: false });
   };
 
+  componentDidMount(){
+    this.props.isLogged()
+  }
+  
   render() {
-    const { classes, theme } = this.props;
+    const { classes, theme, variant } = this.props;
     const { open } = this.state;
 
     return (
@@ -153,16 +171,20 @@ class NavbarSidebarContainer extends React.Component {
             >
               <MenuIcon />
             </IconButton>
-            <Typography variant="h6" color="inherit" noWrap>
-              P5
-            </Typography>
-            <Button className={classes.menuButtonRight} color="inherit">Login</Button>
+            {this.props.match.url !== '/home' ? <Typography className={classes.linkProps} component={Link} to="/home" variant="h6" color="inherit" noWrap>
+              Back
+            </Typography> 
+            :
+            null}
+            
+            <Typography component={Link} to="/login" className={classes.menuButtonRight} style={{ color: '#FFFFFF', fontFamily: 'Roboto', fontSize: '1.2em', textDecoration: 'none' }} onClick={() => this.handleLogOut() }>Logout</Typography>
+
           </Toolbar>
           
         </AppBar>
         <Drawer
           className={classes.drawer}
-          variant="persistent"
+          elevation={variant === 'temporary' ? elevation : 0}
           anchor="left"
           open={open}
           classes={{
@@ -176,20 +198,29 @@ class NavbarSidebarContainer extends React.Component {
             </IconButton>
           </div>
         {/* ------------------------------------- */}
-          <Divider  />
+        <Typography style={{ color: '#FFFFFF', fontFamily: 'Roboto', fontSize: '1.5em', margin: '0 auto 10%'}} >
+          {(this.props.loggedUser) ? 'Hola ' + this.props.loggedUser.nombre + '!' : null} 
+
+        </Typography>
+        <Divider className={classes.dividerColor} />
           <List className={ classes.menuSideBar1 }>
-          
-            {['Control de puerta', 'Lista de Usuarios', 'Historial de acceso'].map((text, index) => (
-              
-              <Link className={ classes.menuSideBar2 } to={index == 0 ? "/puerta" : index == 1 ? "/lista" : "/historial"}>
-              <ListItem className={ classes.menuSideBar2 } button key={text}>{index == 0 ? <ControlDePuertaIcon /> : index == 1 ? <ListaDeUsuarios /> : <HistorialDeAccesos /> }
-                <ListItemIcon className = {classes.iconsColor}> </ListItemIcon>
-                <ListItemText disableTypography
-        primary={<Typography type="body2" style={{ color: '#FFFFFF', fontFamily: 'Roboto' }}>{text}</Typography>} />
-              </ListItem>
-              </Link>
-            
-            ))}
+
+              <ListItem button component={Link} to="/"> 
+              <ControlDePuertaIcon className = {classes.iconsColor}></ControlDePuertaIcon>
+               <ListItemText disableTypography primary={<Typography type="body2" style={{ color: '#FFFFFF', fontFamily: 'Roboto' }}>Control de puerta</Typography>} />
+             </ListItem>
+             
+             <ListItem button component={Link} to="/lista"> 
+             <ListaDeUsuarios className = {classes.iconsColor}></ListaDeUsuarios>
+             <ListItemText disableTypography primary={<Typography type="body2" style={{ color: '#FFFFFF', fontFamily: 'Roboto' }}>Lista de Usuarios</Typography>} />
+               
+             </ListItem>
+
+             <ListItem button component={Link} to="/horarios"> 
+              <HistorialDeAccesos className = {classes.iconsColor}></HistorialDeAccesos>
+              <ListItemText disableTypography primary={<Typography type="body2" style={{ color: '#FFFFFF', fontFamily: 'Roboto' }}>Historial de acceso</Typography>} />
+             </ListItem>
+
           </List>
           <Divider className={classes.dividerColor} />
 
@@ -206,9 +237,42 @@ class NavbarSidebarContainer extends React.Component {
   }
 }
 
+function mapStateToProps(state){
+
+  return {
+    loggedUser : state.user.loggedUser
+  }
+}
+
+function mapDispatchToProps(dispatch){
+  return{
+    isLogged : function(){
+      dispatch(isLogged())
+    },
+    logOutUser : function(){
+      dispatch(logOutUser())
+    }
+  }
+}
+
 NavbarSidebarContainer.propTypes = {
   classes: PropTypes.object.isRequired,
   theme: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles, { withTheme: true })(NavbarSidebarContainer);
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles, { withTheme: true })(NavbarSidebarContainer));
+
+
+
+
+// {['Control de puerta', 'Lista de Usuarios', 'Historial de acceso'].map((text, index) => (
+
+
+//   <ListItem className={ classes.menuSideBar2 } button key={text}>{index == 0 ? <ControlDePuertaIcon/>  : index == 1 ? <ListaDeUsuarios/> : <HistorialDeAccesos/>}
+//     <ListItemIcon className = {classes.iconsColor}> </ListItemIcon>
+//     <ListItemText disableTypography />
+//   </ListItem>
+
+// ))}

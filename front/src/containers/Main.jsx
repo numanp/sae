@@ -27,19 +27,20 @@ class Main extends React.Component{
         return (    
                 <div>
                     
-                    <NavbarSidebarContainer />
+                    {/* <NavbarSidebarContainer /> */}
+                    <Route path='/*' component={NavbarSidebarContainer} />
                    
                     <Switch>
                         {(this.props.loggedUser) ? (
                             <div> 
-                                
+                                <Route path='/home' component={HomeContainer} />
                                 <Route path='/horarios' component={Horarios} />
                                 <Route path='/lista' component={ListaUsuarios} />    
-                                <Route path='/userProfile/:id' component={ProfileContainer} />
-                                <Route exact path='/userProfile' component={ProfileContainer} />
+                                <Route path='/userprofile/:id' component={ProfileContainer} />
+                                <Route exact path='/userprofile' component={ProfileContainer} />
                             </div>) 
                             :
-                            <Route path='/' component={LogIn} />
+                            <Route path='/' component={LogIn}  />
                         }
                     </Switch>
                 </div>

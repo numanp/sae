@@ -45,7 +45,7 @@ app.use('/creador', ()=>{
     dni : 37038970,
     telefono : 47854514,
     imgPerfil : faker.image.imageUrl(),
-    levelAccess : 'superadmin',
+    levelAccess : 'SuperAdmin',
     subeId : '2A:5H:AJ:E4'
   }).then(user => {
     Horarios.create({

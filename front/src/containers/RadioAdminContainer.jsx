@@ -31,7 +31,7 @@ class RadioButtons extends React.Component {
     console.log('SPARTAAA', rango)
     return ( 
       <div>
-        {this.props.user === 'superadmin' ?  
+        {this.props.user === 'SuperAdmin' ?  
         <div>
         SuperUser
         <Radio
@@ -69,7 +69,7 @@ class RadioButtons extends React.Component {
         /> 
         </div>
         :
-        'No eres superadmin'
+        null
         }
       </div>
     );
