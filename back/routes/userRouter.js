@@ -48,6 +48,7 @@ router.post('/', (req, res) =>{
     subeId: req.body.subeId,
   })
   .then(user => res.send(user))
+  .catch(e => res.send(e));
 })
 //trae un usuario especifico
 router.get('/:userid', (req, res) => {
