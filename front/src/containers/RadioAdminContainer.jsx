@@ -14,6 +14,7 @@ const styles = {
     },
   },
   checked: {},
+  fontSize: '0.5em'
 };
 
 class RadioButtons extends React.Component {
@@ -25,12 +26,10 @@ class RadioButtons extends React.Component {
 
 
   render() {
-      console.log(this.props.classes)
     const { classes } = this.props;
     let rango = this.props.user
-    console.log('SPARTAAA', rango)
     return ( 
-      <div>
+      <div style={{fontSize:'0.9em'}}>
         {this.props.user === 'SuperAdmin' ?  
         <div>
         SuperUser

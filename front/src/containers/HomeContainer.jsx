@@ -35,9 +35,9 @@ const styles = {
     backgroundColor:'#F5FFFA' ,
       marginLeft: 'auto',
       marginRight: 'auto',
+      marginBottom: '10%',
       display: 'flex',
-    //   alignItems: 'center',
-      margin: '0 11vw',
+    //   alignItems: 'center',,
       display: 'inline-block',
       textDecoration: 'none !important'
     },
@@ -55,6 +55,7 @@ const styles = {
         marginRight: 'auto',
         alignItems: 'center',
         display: 'flex',
+        textAlign: 'center'
     },
   };
   

@@ -33,6 +33,9 @@ class Main extends React.Component{
                     <Switch>
                         {(this.props.loggedUser) ? (
                             <div> 
+                                <Route exact path="/" render={() => (
+                                    <Redirect to="/home"/>
+                                )}/>
                                 <Route path='/home' component={HomeContainer} />
                                 <Route path='/horarios' component={Horarios} />
                                 <Route path='/lista' component={ListaUsuarios} />    
@@ -40,6 +43,7 @@ class Main extends React.Component{
                                 <Route exact path='/userprofile' component={ProfileContainer} />
                             </div>) 
                             :
+
                             <Route path='/' component={LogIn}  />
                         }
                     </Switch>
@@ -66,3 +70,20 @@ function mapDispatchToProps(dispatch){
     }
 };
 export default connect(mapStateToProps,mapDispatchToProps)(Main)
+
+
+
+{/* <Switch>
+{(this.props.loggedUser) ? (
+    <div> 
+        <Route path='/home' component={HomeContainer} />
+        <Route path='/horarios' component={Horarios} />
+        <Route path='/lista' component={ListaUsuarios} />    
+        <Route path='/userprofile/:id' component={ProfileContainer} />
+        <Route exact path='/userprofile' component={ProfileContainer} />
+    </div>) 
+    :
+
+    <Route path='/' component={LogIn}  />
+}
+</Switch> */}

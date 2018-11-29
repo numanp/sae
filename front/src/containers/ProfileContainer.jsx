@@ -32,6 +32,7 @@ class ProfileContainer extends Component {
 
     componentDidMount() {
 
+
         var aux = this.props.match.params.id
         if(aux){
             this.props.getUser(aux)
@@ -46,11 +47,10 @@ class ProfileContainer extends Component {
 
     handleSwitch(e){
         e.preventDefault();
-        this.setState({ switcher: !e.switcher })
+        this.setState({ switcher: !this.state.switcher })
     }
 
     handleChange(e){
-        console.log('HANDLECHANGEE', e.target.name)
         e.preventDefault();
         let keyValue = e.target.id
         let value = e.target.value
