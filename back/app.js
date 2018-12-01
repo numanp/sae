@@ -8,7 +8,7 @@ var logger = require('morgan');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var bodyParser = require('body-parser');
-var faker = require('faker')
+var faker = require('faker');
 //MODELS & SYNC
 
 const db = require('./db/index');
@@ -25,7 +25,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 //app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, '../front/dist')));
-console.log(path.join(__dirname, '../front/dist'))
+// console.log(path.join(__dirname, '../front/dist'))
 // app.use(express.static('../front/dist'));
 // app.use(express.static(path.resolve(__dirname,'/../front/dist')));
 
@@ -47,7 +47,7 @@ app.use('/creador', ()=>{
     dni : 37038970,
     telefono : 47854514,
     imgPerfil : faker.image.imageUrl(),
-    levelAccess : 'superadmin',
+    levelAccess : 'SuperAdmin',
     subeId : '2A:5H:AJ:E4'
   }).then(user => {
     Horarios.create({
@@ -64,19 +64,131 @@ app.use('/creador', ()=>{
   })
 })
 app.use('/droga', () => {
-  const meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
 
-    User.findById(1)
-    .then(user => {
-      History.create({
-        nombre : user.nombre,
-        apellido : user.apellido,
-      })
-      .then(history=> {
-        user.addHistories(history)
-      })
+    // User.findOne({
+    //   subeId : '2A:5H:AJ:E4'
+    // })
+    // .then(user=>{
+    //   Horarios.findById(user.horarioId)
+    //   .then(horario=>{
+    //     const dias = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado']
+    //     const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    //     const fecha = new Date();
+    //     const today = fecha.toLocaleDateString('en-US',options);
+    //     const hora = new Date();
+    //     const actualyTime = hora.toLocaleTimeString(options)
+    //     const dia = new Date();
+    //     const nombreDia = dias[dia.getDay()]
+    //     const toCompare = today.concat(' ', actualyTime)
+    //     if(horario.dias.find(dia == nombreDia)){
+
+    //     }
+    //   })
+    // })
+    const horaMinima = '13:00:00'
+    const horaMaxima = '21:00:00'
+    
+
+    const dias = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado']
+    const diasParaComparar = ['Lunes', 'Miércoles', 'Jueves', 'Sábado']
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    const fecha = new Date();
+    const today = fecha.toLocaleDateString('en-US',options);
+    const hora = new Date();
+    const actualyTime = hora.toLocaleTimeString(options)
+    const dia = new Date();
+    const nombreDia = dias[dia.getDay()]
+    const toCompare = today.concat(' ', actualyTime)
+    // console.log(nombreDia)
+    // console.log(toCompare)
+    const hoy = new Date('December 2, 2018');
+    const mañana = new Date('December 8, 2018')
+
+    if(hoy.getMonth() <= fecha.getMonth() && mañana.getMonth() >= fecha.getMonth()){
+
+        if(hoy.getMonth() == fecha.getMonth()){
+
+            if(hoy.getDate() <= fecha.getDate()) { 
+
+                if(diasParaComparar.indexOf(nombreDia) != -1) {
+
+                    const horaMINArr = horaMinima.split(':');
+                    const horaMAXArr = horaMaxima.split(':');
+                    var horaActual = [];
+                    horaActual.push(fecha.getHours())
+                    horaActual.push(fecha.getMinutes())
+
+                    if(horaActual[0] <= horaMAXArr[0] && horaActual[0] >= horaMINArr[0]){
+
+                        if(horaActual[0] == horaMAXArr[0]){
+                            (horaActual[1] < horaMAXArr[1]) ? console.log(' retornamos el acceso') : console.log('no pasa')
+                        }
+                        if(horaActual[0] == horaMINArr[0]){
+                            (horaActual[1] > horaMINArr[1]) ? console.log('retornamos el acceso') : console.log('no pasa')
+                        }
+
+                        console.log('retornamos el acceso sin comparar minutos')
+                    }else{
+                        console.log('No puedes pasar, tu horario  : min max')
+                    }
+
+                }else{
+
+                    console.log('no puede pasar, dia no permitido')
+
+                }
+
+            }
+
+        }
+        if(mañana.getMonth() == fecha.getMonth()){
+
+            if(mañana.getDate() >= fecha.getDate()) { 
+
+                if(diasParaComparar.indexOf(nombreDia) != -1) {
+                    const horaMINArr = horaMinima.split(':');
+                    const horaMAXArr = horaMaxima.split(':');
+                    var horaActual = [];
+                    horaActual.push(fecha.getHours())
+                    horaActual.push(fecha.getMinutes())
+                    console.log('HoraMINArray ' , horaMINArr)
+                    console.log('HoraMAXArray ' , horaMAXArr)
+                    console.log('Hora actual ' , horaActual)
+
+                    if(horaActual[0] <= horaMAXArr[0] && horaActual[0] >= horaMINArr[0]){
+
+                        if(horaActual[0] == horaMAXArr[0]){
+                            (horaActual[1] < horaMAXArr[1]) ? console.log(' retornamos el acceso') : console.log('no pasa')
+                        }
+                        if(horaActual[0] == horaMINArr[0]){
+                            (horaActual[1] > horaMINArr[1]) ? console.log(' retornamos el acceso') : console.log('no pasa')
+                        }
+
+                        console.log('retornamos el acceso sin comparar minutos')
+                    }else{
+                        console.log('No puedes pasar, tu horario  : min max')
+                    }
+
+                }else{
+
+                    console.log('no puede pasar, dia no permitido')
+                }
+            }
+        //console.log('Permitimos acceso pq el mes es mayor al minmo y menor al maximo')
+    }
+}
+console.log('No hay acceso para este usuario')
+    // User.findById(1)
+    // .then(user => {
+    //   History.create({
+    //     nombre : user.nombre,
+    //     apellido : user.apellido,
+    //   })
+    //   .then(history=> {
+    //     user.addHistories(history)
+    //   })
+    // })
     })
-})
 app.use('/api/logs', historyRouter);
 app.use('/api/usuarios', userRouter);
 app.use('/*', (req, res) => {
