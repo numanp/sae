@@ -96,7 +96,7 @@ class HistoriesContainer extends React.Component {
                     <TableCell component="th" scope="row">
                       {row.nombrecompleto}
                     </TableCell>
-                    <TableCell>{row.createdAt}</TableCell>
+                    <TableCell>{row.ingreso}</TableCell>
                   </TableRow>
                 );
               })}
