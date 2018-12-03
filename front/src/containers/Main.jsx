@@ -11,6 +11,7 @@ import LogIn from './LogInContainer'
 import NavbarSidebarContainer from './NavbarSidebarContainer'
 import ProfileContainer from './ProfileContainer';
 import { func } from 'prop-types';
+import HistoriesContainer from './HistoriesContainer';
 
 
 //COMPONENTS
@@ -39,12 +40,21 @@ class Main extends React.Component{
                                 <Route path='/home' component={HomeContainer} />
                                 <Route path='/horarios' component={Horarios} />
                                 <Route path='/lista' component={ListaUsuarios} />    
+<<<<<<< HEAD
+                                <Route path='/userProfile/:id' component={ProfileContainer} />
+                                <Route exact path='/userProfile' component={ProfileContainer} />
+                                <Route path='/logs' component={HistoriesContainer} />
+                            </div>) 
+                            :
+                                <Route path='/' component={LogIn} />
+=======
                                 <Route path='/userprofile/:id' component={ProfileContainer} />
                                 <Route exact path='/userprofile' component={ProfileContainer} />
                             </div>) 
                             :
 
                             <Route path='/' component={LogIn}  />
+>>>>>>> d7111e175377701d7613a7b1c149cd639f2aeeff
                         }
                     </Switch>
                 </div>
