@@ -6,9 +6,17 @@ router.get('/', (req, res) => {
     History.findAll()
     .then(response => res.send(response))
 })
+router.get('/:id', (req, res) => {
+    History.findAll({
+        where : {
+            userId : req.params.id
+        }
+    })
+    .then(response=>res.send(response))
+})
 router.post('/', (req, res) => {
     //deberiamos usar el id de la sube para traer el usuario para setear el user id en la tabla, hasta entonces, le harcodeo un usuario
-    let subeId = req.body.subeId
+    let subeId = '2A:5H:AJ:E4'
     User.findOne({
         subeId
     })
@@ -45,7 +53,8 @@ router.post('/', (req, res) => {
                                     return History.create({
                                         nombre : user.nombre,
                                         apellido : user.apellido,
-                                        ingreso : toSave
+                                        ingreso : toSave,
+                                        userId : user.id
                                     })
                                 }else{
                                     return console.log('no pasa')
@@ -56,7 +65,8 @@ router.post('/', (req, res) => {
                                     return History.create({
                                             nombre : user.nombre,
                                             apellido : user.apellido,
-                                            ingreso : toSave
+                                            ingreso : toSave,
+                                            userId : user.id
                                             }) 
                                 }else{
                                     return console.log('no pasa')
@@ -65,7 +75,8 @@ router.post('/', (req, res) => {
                             return History.create({
                                 nombre : user.nombre,
                                 apellido : user.apellido,
-                                ingreso : toSave
+                                ingreso : toSave,
+                                userId : user.id
                             }) 
                         }else{
                             return console.log(`No puedes pasar, tu horario  : ${horaMinima}  a ${horaMaxima}`)
