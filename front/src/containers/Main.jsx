@@ -31,17 +31,15 @@ class Main extends React.Component{
                     <Route path='/*' component={NavbarSidebarContainer} />
                    
                     <Switch>
-                        {(this.props.loggedUser) ? (
-                            <div> 
-                                <Route exact path="/" render={() => (
-                                    <Redirect to="/home"/>
-                                )}/>
-                                <Route path='/home' component={HomeContainer} />
-                                <Route path='/horarios' component={Horarios} />
-                                <Route path='/lista' component={ListaUsuarios} />    
-                                <Route path='/userprofile/:id' component={ProfileContainer} />
-                                <Route exact path='/userprofile' component={ProfileContainer} />
-                            </div>) 
+                        {(this.props.loggedUser) ? 
+                            <div>
+                            <Route path='/home' component={HomeContainer} />
+                            <Route path='/horarios' component={Horarios} />
+                            <Route path='/lista' component={ListaUsuarios} />    
+                            <Route path='/userprofile/:id' component={ProfileContainer} />
+                            <Route exact path='/userprofile' component={ProfileContainer} />
+                            {/* <Redirect from='/' to="/home"/> */}
+                            </div>
                             :
 
                             <Route path='/' component={LogIn}  />
