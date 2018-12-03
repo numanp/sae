@@ -9,6 +9,7 @@ var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var bodyParser = require('body-parser');
 var faker = require('faker');
+var mfrc522 = require('MFRC522-node');
 //MODELS & SYNC
 
 const db = require('./db/index');
@@ -144,6 +145,21 @@ app.use('/api/usuarios', userRouter);
 app.use('/*', (req, res) => {
   res.sendFile(path.join(__dirname, '../front/index.html'));
 });
+
+var Callback = function(){
+  this.onStart = function(){
+    console.log('onStart');
+  };
+  this.onUid = function(uid){
+    console.log('onUid');
+    console.log(uid);
+  };
+
+  this.onExit = function(){
+    console.log('onExit');
+  };
+};
+mfrc522.start( new Callback() );
 
 //PASSPORT
 passport.use(new LocalStrategy({
