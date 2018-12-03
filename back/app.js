@@ -42,13 +42,13 @@ app.use('/creador', ()=>{
   User.create({
     nombre : faker.name.firstName(),
     apellido : faker.name.lastName(),
-    email : 'numanp_92@hotmail.com',
+    email : 'numanp_92@gmail.com',
     password : '12345678',
     dni : 37038970,
     telefono : 47854514,
     imgPerfil : 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png',
     levelAccess : 'SuperAdmin',
-    subeId : '2A:5H:AJ:E4'
+    subeId : '123456'
   }).then(user => {
     Horarios.create({
       dias: ['Lunes','Miércoles','Viernes'],
