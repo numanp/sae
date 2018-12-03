@@ -104,7 +104,6 @@ function mapDispatchToProps(dispatch, ownProps){
         getUser: (userId) => {
             dispatch(getUser(userId));
           },
-
         remplaceIdSube: userId => {
             dispatch(remplaceIdSube(userId))
         },
@@ -121,3 +120,7 @@ function mapDispatchToProps(dispatch, ownProps){
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProfileContainer)
+
+
+
+
