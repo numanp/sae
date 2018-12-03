@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 import { connect } from 'react-redux';
 import { fetchHistories } from '../redux/actions/historiesActions';
 
@@ -66,9 +65,10 @@ class HistoriesContainer extends React.Component {
             rowsPerPage: 5,
           }
         }
-    componentDidMount(){
-       this.props.fetchLogs()
+    componentDidMount(){ 
+      this.props.fetchLogs(this.props.userId) 
     }
+    
     handleChangeRowsPerPage = event => {
         this.setState({ rowsPerPage: event.target.value });
       };
@@ -77,7 +77,7 @@ class HistoriesContainer extends React.Component {
         const { rowsPerPage, page } = this.state; 
 
         const emptyRows = rowsPerPage - Math.min(rowsPerPage, (logs[0] ? logs.length : 0) - page * rowsPerPage);   
-
+        console.log(this.props)
         return(
             <Paper className={classes.root}>
         <div className={classes.tableWrapper}>
@@ -90,7 +90,6 @@ class HistoriesContainer extends React.Component {
         </TableHead>
             <TableBody>
               {logs[0] && logs.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row => {
-                  console.log(row)
                 return (
                   <TableRow key={row.id} hover >
                     <TableCell component="th" scope="row">
@@ -134,8 +133,8 @@ function mapStateToProps(state, ownProps){
 }
 function mapDispatchToProps(dispatch, ownProps){
     return {
-        fetchLogs : function(){
-            dispatch(fetchHistories())
+        fetchLogs : function(userId){
+            dispatch(fetchHistories(userId))
         }
     }
 }

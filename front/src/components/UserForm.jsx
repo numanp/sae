@@ -7,6 +7,7 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Horarios from './Horarios';
 import RadioAdminContainer from  '../containers/RadioAdminContainer'
+import HistoriesContainer from '../containers/HistoriesContainer';
 
 
 export default ({user, handleSubmit, deleteUser, changeSUBE, handleSwitch, switcher, handleChange}) => (
@@ -125,12 +126,15 @@ export default ({user, handleSubmit, deleteUser, changeSUBE, handleSwitch, switc
                                 />
                             }
                         />
-                        {switcher ?
+
+                        {user.id ? (switcher ?
                             <Grid container item xs={12}>
                             <Horarios />
                             </Grid>
                             : 
-                            'componente logs'}
+                            <Grid container item xs={12}>
+                            <HistoriesContainer userId={user.id} />
+                        </Grid>) : null }
                     </Grid>
 
 
