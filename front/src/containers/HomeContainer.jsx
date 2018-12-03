@@ -79,16 +79,11 @@ class HomeContainer extends Component{
     this.handleButtonChange = this.handleButtonChange.bind(this)
     }
 
-    handleSubeInput(e){
-        e.preventDefault();
-        console.log(e)
-    }
 
 
     handleButtonChange(e){
         e.preventDefault();
         this.setState({ buttonChange: !this.state.buttonChange })
-        console.log(this.state)
     }
 
     render(){
@@ -145,7 +140,7 @@ class HomeContainer extends Component{
                             </CardContent>
                         </CardActionArea>
                     </Card>
-                    
+
                 {(this.state.buttonChange == true) ? <SubeInput handleButtonChange={this.handleButtonChange} history={this.props.history} className={classes.inputZprops} /> : null}
             </Grid>
 

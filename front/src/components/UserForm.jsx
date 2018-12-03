@@ -8,10 +8,15 @@ import Paper from '@material-ui/core/Paper';
 import Horarios from './Horarios';
 import RadioAdminContainer from  '../containers/RadioAdminContainer'
 import HistoriesContainer from '../containers/HistoriesContainer';
+import SubeChange from '../containers/SubeChangeContainer'
 
-
-export default ({user, handleSubmit, deleteUser, changeSUBE, handleSwitch, switcher, handleChange}) => (
+export default ({user, handleSubmit, deleteUser, handleSwitch, changeSubeButton, switcher, handleChange, handleChangeSube}) => (
     <Paper style={{width:'95%', margin:'auto'}}>
+    {(changeSubeButton) ? <SubeChange 
+                                user={user}  
+                                handleChangeSube={handleChangeSube}
+                                handleChange={handleChange} />
+                         : null}
         <Grid style={{width:'95%', margin:'0 auto', padding:'3% 0'}}>
             <Grid container item xs={12} md={12}>
                 <Grid item xs={12} md={3} >
@@ -25,7 +30,7 @@ export default ({user, handleSubmit, deleteUser, changeSUBE, handleSwitch, switc
                         <Grid item xs={12} md={10} style={{margin:'1% 0'}} > <Button fullWidth variant="contained" color="secondary" onClick={handleSubmit}> {user.name ? 'Guardar modificaciones' : 'Guardar usuario'} </Button> </Grid>
                         {user ? <Grid item xs={12} md={10} style={{margin:'1% 0'}}> <Button fullWidth variant="contained" color="secondary" onClick={deleteUser} > Eliminar usuario </Button> </Grid> : null}
                         <Grid item xs={12} md={10} style={{margin:'1% 0'}}> <Button fullWidth variant="contained" color="primary">Cambiar horarios</Button> </Grid>
-                        {user ? <Grid item xs={12} md={10} style={{margin:'1% 0'}}> <Button fullWidth variant="contained" color="primary" type="submit"> Cambiar sube </Button> </Grid>: null }
+                        {user ? <Grid item xs={12} md={10} style={{margin:'1% 0'}}> <Button fullWidth variant="contained" color="primary" type="submit" onClick={handleChangeSube}> Cambiar sube </Button> </Grid>: null }
                     </Grid>
                 </Grid>
 
@@ -137,11 +142,12 @@ export default ({user, handleSubmit, deleteUser, changeSUBE, handleSwitch, switc
                         </Grid>) : null }
                     </Grid>
 
-
                 </Grid>
             </Grid>
         </Grid>
+        
     </Paper> 
+    
 )
 
 
