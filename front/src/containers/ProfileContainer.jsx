@@ -4,7 +4,8 @@ import { getUser, removeUser, makeUserAdmin, remplaceIdSube, updateUser, createU
 import axios from 'axios'
 
 import UserForm from '../components/UserForm'
-import { updateDateAndTime } from '../redux/actions/horariosActions'
+import { updateDateAndTime } from '../redux/actions/horariosActions';
+import { fetchUsers } from '../redux/actions/allUsersActions';
 
 class ProfileContainer extends Component {
     constructor (props){
@@ -27,17 +28,14 @@ class ProfileContainer extends Component {
         this.handleChange = this.handleChange.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
         this.deleteUser = this.deleteUser.bind(this)
-        // this.handleAdminMaker = this.handleAdminMaker.bind(this)
+        // horarioMaxthis.handleAdminMaker = this.handleAdminMaker.bind(this)
     }
 
     componentDidMount() {
-
-
         var aux = this.props.match.params.id
         if(aux){
             this.props.getUser(aux)
-        }
-        
+        }        
     }
     componentWillReceiveProps(nextProps){
         this.setState({
@@ -54,17 +52,21 @@ class ProfileContainer extends Component {
         e.preventDefault();
         let keyValue = e.target.id
         let value = e.target.value
-        this.setState({
-            controledUser : {
-                ...this.state.controledUser,
+        this.setState(state => {
+            const obj = {...state.controledUser,
                 [keyValue] : value
             }
+            this.props.updateUser(obj);
+            return obj;
         })
     }
 
     handleSubmit(e){
         e.preventDefault();
-        if(this.state.controledUser.id){            
+       
+        
+        if(this.state.controledUser.id){  
+            if(this.props.horarios.dias){        
             this.props.updateDateAndTime(this.props.match.params.id,{
                 dias:this.props.horarios.dias,
                 fechaInicio:this.props.horarios.selectedDateInicio,
@@ -72,8 +74,10 @@ class ProfileContainer extends Component {
                 horarioMin:this.props.horarios.selectedTimeMin.toString().slice(15,24),
                 horarioMax: this.props.horarios.selectedTimeMax.toString().slice(15,24)
                 })
+            }
             axios.put('/api/usuarios/', this.state.controledUser)
             .then(alert('Se ha modificado el usuario correctamente'))
+            .then(() => this.props.fetchUsers())
         } else {
             this.props.createUser(this.state.controledUser)
         }
@@ -104,6 +108,9 @@ function mapDispatchToProps(dispatch, ownProps){
         getUser: (userId) => {
             dispatch(getUser(userId));
           },
+        updateUser: (usuario) =>{
+            dispatch(updateUser(usuario))
+        },
         remplaceIdSube: userId => {
             dispatch(remplaceIdSube(userId))
         },
@@ -115,6 +122,9 @@ function mapDispatchToProps(dispatch, ownProps){
         },
         logOut : function(){
             dispatch(logOutUser())
+        },
+        fetchUsers: () => {
+            dispatch(fetchUsers())
         }
     }
 }

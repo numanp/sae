@@ -15,6 +15,7 @@
   "license": "CPC",
   "homepage": "https://github.com/Plataforma5la/sae#readme",
   "dependencies": {
+    "MFRC522-node": "^1.0.5",
     "bluebird": "^3.5.1",
     "body-parser": "^1.18.2",
     "cookie-parser": "^1.4.3",

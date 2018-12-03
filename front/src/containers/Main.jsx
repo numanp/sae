@@ -84,7 +84,6 @@ export default connect(mapStateToProps,mapDispatchToProps)(Main)
         <Route exact path='/userprofile' component={ProfileContainer} />
     </div>) 
     :
-
     <Route path='/' component={LogIn}  />
 }
 </Switch> */}

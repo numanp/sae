@@ -9,8 +9,9 @@ var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var bodyParser = require('body-parser');
 var faker = require('faker');
+var mfrc522 = require('MFRC522-node');
 //MODELS & SYNC
-
+const { accessControl } = require('./functions/access')
 const db = require('./db/index');
 db.sync({force : false});
 
@@ -42,13 +43,13 @@ app.use('/creador', ()=>{
   User.create({
     nombre : faker.name.firstName(),
     apellido : faker.name.lastName(),
-    email : 'numanp_92@gmail.com',
-    password : '12345678',
+    email : 'sebacomas@gmail.com.com',
+    password : 'sebastian01',
     dni : 37038970,
     telefono : 47854514,
     imgPerfil : 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png',
     levelAccess : 'SuperAdmin',
-    subeId : '123456'
+    subeId : '81,72,89,211'
   }).then(user => {
     Horarios.create({
       dias: ['Lunes','Miércoles','Viernes'],
@@ -72,6 +73,22 @@ app.use('/api/usuarios', userRouter);
 app.use('/*', (req, res) => {
   res.sendFile(path.join(__dirname, '../front/index.html'));
 });
+
+var Callback = function(){
+  this.onStart = function(){
+    console.log('onStart');
+    accessControl(15)
+  };
+  this.onUid = function(uid){
+    console.log('onUid');
+    console.log(uid);
+  };
+
+  this.onExit = function(){
+    console.log('onExit');
+  };
+};
+mfrc522.start( new Callback() );
 
 //PASSPORT
 passport.use(new LocalStrategy({
