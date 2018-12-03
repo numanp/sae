@@ -4,7 +4,10 @@ const oneUser = (user) => ({
     type:'FETCH_USER',
     user
 }) 
-
+const modificaUsuario = (usuario) => ({
+    type:'UPDATE_USER',
+    usuario
+})
 const idSubeChange = (changeSube) => ({
     type: 'CHANGE_SUBE',
     changeSube
@@ -33,6 +36,9 @@ export const getUser = (userId) => (dispatch) => {
     .then(res => res.data)
     .then(data => dispatch(oneUser(data)))
 } 
+export const updateUser = (usuario) => (dispatch) => {
+    dispatch(modificaUsuario(usuario))
+}
 export const createUser = (user) => (dispatch) => {
     axios.post('/api/usuarios/', user)
     .then(res => res.data)

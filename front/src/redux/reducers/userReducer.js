@@ -14,6 +14,8 @@ export default (state=initialState,action) => {
             return Object.assign({}, state, { user: action.changeSube })
         case 'NEW_USER':
             return Object.assign({}, state, { user: action.userCreation })
+        case 'UPDATE_USER':
+            return Object.assign({}, state, { user: action.usuario })
         case 'LOGGED_USER':
             return Object.assign({}, state, {loggedUser : action.loggedUser})
         case 'SET_LOGGED_USER':
