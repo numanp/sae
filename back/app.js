@@ -11,7 +11,7 @@ var bodyParser = require('body-parser');
 var faker = require('faker');
 var mfrc522 = require('MFRC522-node');
 //MODELS & SYNC
-
+const { accessControl } = require('./functions/access')
 const db = require('./db/index');
 db.sync({force : false});
 
@@ -43,13 +43,13 @@ app.use('/creador', ()=>{
   User.create({
     nombre : faker.name.firstName(),
     apellido : faker.name.lastName(),
-    email : 'numanp_92@hotmail.com',
-    password : '12345678',
+    email : 'sebacomas@gmail.com.com',
+    password : 'sebastian01',
     dni : 37038970,
     telefono : 47854514,
     imgPerfil : 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png',
     levelAccess : 'SuperAdmin',
-    subeId : '2A:5H:AJ:E4'
+    subeId : '81,72,89,211'
   }).then(user => {
     Horarios.create({
       dias: ['Lunes','Miércoles','Viernes'],
@@ -149,6 +149,7 @@ app.use('/*', (req, res) => {
 var Callback = function(){
   this.onStart = function(){
     console.log('onStart');
+    accessControl(15)
   };
   this.onUid = function(uid){
     console.log('onUid');

@@ -1,10 +1,13 @@
-export const accessControl = (subeScanBack) => {
+const History = require('../db/models/Histories');
+const User = require('../db/models/User'); 
+const Horarios = require('../db/models/Horarios')
+const accessControl = (subeScanBack) => {
     //deberiamos usar el id de la sube para traer el usuario para setear el user id en la tabla, hasta entonces, le harcodeo un usuario
 
     User.findOne({
         subeScanBack
     })
-    .then(user=>{
+    .then(user=>{ user ? (
         Horarios.findById(user.horarioId)
             .then(horario=>{
                 //seteamos lo que traemos de la base de datos
@@ -33,7 +36,8 @@ export const accessControl = (subeScanBack) => {
                                     return History.create({
                                         nombre : user.nombre,
                                         apellido : user.apellido,
-                                        ingreso : toSave
+                                        ingreso : toSave,
+                                        userId: user.id
                                     })
                                 }else{
                                     return console.log('no pasa')
@@ -44,7 +48,8 @@ export const accessControl = (subeScanBack) => {
                                     return History.create({
                                             nombre : user.nombre,
                                             apellido : user.apellido,
-                                            ingreso : toSave
+                                            ingreso : toSave,
+                                            userId: user.id
                                             }) 
                                 }else{
                                     return console.log('no pasa')
@@ -53,7 +58,8 @@ export const accessControl = (subeScanBack) => {
                             return History.create({
                                 nombre : user.nombre,
                                 apellido : user.apellido,
-                                ingreso : toSave
+                                ingreso : toSave,
+                                userId: user.id
                             }) 
                         }else{
                             return console.log(`No puedes pasar, tu horario  : ${horario.horarioMin}  a ${horario.horarioMax}`)
@@ -65,5 +71,8 @@ export const accessControl = (subeScanBack) => {
                 }
   
             })
+        ) : console.log('no hay usuarios')
+        
       })
-})
+}
+module.exports = { accessControl }
