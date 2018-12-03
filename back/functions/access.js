@@ -4,9 +4,7 @@ const Horarios = require('../db/models/Horarios')
 const accessControl = (subeScanBack) => {
     //deberiamos usar el id de la sube para traer el usuario para setear el user id en la tabla, hasta entonces, le harcodeo un usuario
 
-    User.findOne({
-        subeScanBack
-    })
+    User.findOne({ where:{ subeId: subeScanBack }})
     .then(user=>{ user ? (
         Horarios.findById(user.horarioId)
             .then(horario=>{
