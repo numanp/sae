@@ -65,80 +65,8 @@ app.use('/creador', ()=>{
   })
 })
 app.use('/droga', (req, res) => {
-
-    // User.findOne({
-    //   subeId : '2A:5H:AJ:E4'
-    // })
-    // .then(user=>{
-    //     Horarios.findById(user.horarioId)
-    //     .then(horario=>{
-    //         console.log('console.loh de horario first at all', horario)
-    //         //seteamos lo que traemos de la base de datos
-    //         const horaMinima = horario.horarioMax
-    //         const horaMaxima = horario.horarioMax
-    //         const diasParaComparar = horario.dias
-    //         const horaMINArr = horaMinima.split(':');
-    //         const horaMAXArr = horaMaxima.split(':');
-    //         //seteamos los datos para comparar
-    //         const dias = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado']
-    //         const options = { year: 'numeric', month: 'long', day: 'numeric' };
-    //         const fecha = new Date();
-    //         const today = fecha.toLocaleDateString('en-US',options);
-    //         const hora = new Date();
-    //         const actualyTime = hora.toLocaleTimeString(options)
-    //         const dia = new Date();
-    //         const nombreDia = dias[dia.getDay()]
-    //         var horaActual = [];
-    //         horaActual.push(fecha.getHours())
-    //         horaActual.push(fecha.getMinutes())    
-    //         //seteamos el formato en el que guardariamos la fecha de ingreso
-    //         const toSave = today.concat(' ', actualyTime)
-    //         console.log(toSave)
-    // const fechaInicio = new Date(horario.fechaInicio);
-    // const fechaFin = new Date(horario.fechaFin)
-    // if(fechaInicio.getTime() <= fecha.getTime() && fechaFin.getTime() >= fecha.getTime()){
-    //     if(diasParaComparar.indexOf(nombreDia) != -1) {     
-    //         if(horaActual[0] <= horaMAXArr[0] && horaActual[0] >= horaMINArr[0]){
-    //             if(horaActual[0] == horaMAXArr[0]){
-    //                 if(horaActual[1] < horaMAXArr[1]){
-    //                     History.create({
-    //                         nombre : user.nombre,
-    //                         apellido : user.apellido,
-    //                         ingreso : toSave
-    //                     }) 
-    //                     return console.log('acceso permitido 1')
-    //                 }else{
-    //                     return console.log('no pasa')
-    //                 } 
-    //             }
-    //             if(horaActual[0] == horaMINArr[0]){
-    //                 if(horaActual[1] > horaMINArr[1]) {
-    //                     History.create({
-    //                         nombre : user.nombre,
-    //                         apellido : user.apellido,
-    //                         ingreso : toSave
-    //                     }) 
-    //                     return console.log('retornamos el acceso 2') 
-    //                 }else{
-    //                     return console.log('no pasa')
-    //                 }
-    //             }
-    //             History.create({
-    //                 nombre : user.nombre,
-    //                 apellido : user.apellido,
-    //                 ingreso : toSave
-    //             }) 
-    //                 return console.log('retornamos el acceso sin comparar minutos 1')
-    //         }else{
-    //                 return console.log(`No puedes pasar, tu horario  : ${horaMinima}  a ${horaMaxima}`)
-    //         }
-    //     }else{
-    //         return console.log('no puede pasar, dia no permitido')
-    //     }
-    // }
-    //     }
-    //     )
-    // })
+ 
+    
 })
 app.use('/api/logs', historyRouter);
 app.use('/api/usuarios', userRouter);

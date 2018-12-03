@@ -7,8 +7,15 @@ const getHistories = logs => ({
     logs
 })
 //funcion para dispatchear el action creator y traer con axios los logs de bbdd
-export const fetchHistories = () => dispatch => {
-    axios.get('/api/logs')
-    .then(response=>response.data)
-    .then(logs=>dispatch(getHistories(logs)))
+export const fetchHistories = userId => dispatch => {
+    if(userId){
+        axios.get(`/api/logs/${userId}`)
+        .then(response=>response.data)
+        .then(logs=>dispatch(getHistories(logs))) 
+    }else{
+        axios.get('/api/logs')
+        .then(response=>response.data)
+        .then(logs=>dispatch(getHistories(logs)))
+    }
+   
 }

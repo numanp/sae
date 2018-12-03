@@ -50,11 +50,7 @@ router.post('/', (req, res) =>{
   .then(user => res.send(user))
   .catch(e => res.send(e));
 })
-//trae un usuario especifico
-router.get('/:userid', (req, res) => {
-  User.findById(req.params.userid)
-  .then(user => res.send(user))
-}) 
+
 //elimina un usuario especifico (id en el query)
 router.delete('/', (req, res) => {
   let id = req.query.id
@@ -81,14 +77,28 @@ router.put('/', (req, res) => {
     .then(()=>res.sendStatus(200)) 
 });
 //quizas haya que eliminarla, cambia el id de la sube de un usuario especifico
-router.put('/subeId', (req, res) => {
-  User.findById(req.body.userId).then(user =>
-    //User.findById(req.params.userId).then(user =>
-    user.update({ subeId: req.body.subeId }).then(() => {
-      res.status(200).send(subeId, 'sube de usuario modificada ');
-    }),
-  );
+// router.put('/subeId', (req, res) => {
+//   User.findById(req.body.userId).then(user =>
+//     //User.findById(req.params.userId).then(user =>
+//     user.update({ subeId: req.body.subeId }).then(() => {
+//       res.status(200).send(subeId, 'sube de usuario modificada ');
+//     }),
+//   );
+// });
+
+router.get('/subeId', (req, res) => {
+  // console.log(req.query)
+  User.findOne({ where: { subeId: req.query.inputForm } }).then(user =>
+    // console.log(user.dataValues))
+    res.send(user))
 }); 
+
+//trae un usuario especifico
+router.get('/:userid', (req, res) => {
+  User.findById(req.params.userid)
+  .then(user => res.send(user))
+}) 
+
 //quizas haya que eliminarla, cambia el level access de un usuario especifico
 router.put('/makeAdmin/:userId', (req, res) => {
   User.findById(req.params.userId).then(user =>

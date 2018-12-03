@@ -6,5 +6,12 @@ router.get('/', (req, res) => {
     History.findAll()
     .then(response => res.send(response))
 })
-
+router.get('/:id', (req, res) => {
+    History.findAll({
+        where : {
+            userId : req.params.id
+        }
+    })
+    .then(response=>res.send(response))
+})
 module.exports = router;
