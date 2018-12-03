@@ -11,7 +11,7 @@ import LogIn from './LogInContainer'
 import NavbarSidebarContainer from './NavbarSidebarContainer'
 import ProfileContainer from './ProfileContainer';
 import { func } from 'prop-types';
-import SubeInputContainer from './SubeInputContainer';
+import HistoriesContainer from './HistoriesContainer';
 
 
 //COMPONENTS
@@ -42,7 +42,6 @@ class Main extends React.Component{
                                 <Route path='/lista' component={ListaUsuarios} />    
                                 <Route path='/userprofile/:id' component={ProfileContainer} />
                                 <Route exact path='/userprofile' component={ProfileContainer} />
-                                <Route path='/subecontainer'  component={SubeInputContainer} />
                             </div>) 
                             :
 
