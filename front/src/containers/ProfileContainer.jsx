@@ -12,6 +12,7 @@ class ProfileContainer extends Component {
         super(props)
         this.state = {
             switcher: false,
+            buttonChangeSube: false,
             controledUser: {
                 nombre: '',
                 apellido: '',
@@ -28,6 +29,7 @@ class ProfileContainer extends Component {
         this.handleChange = this.handleChange.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
         this.deleteUser = this.deleteUser.bind(this)
+        this.handleChangeSube = this.handleChangeSube.bind(this)
         // horarioMaxthis.handleAdminMaker = this.handleAdminMaker.bind(this)
     }
 
@@ -46,6 +48,11 @@ class ProfileContainer extends Component {
     handleSwitch(e){
         e.preventDefault();
         this.setState({ switcher: !this.state.switcher })
+    }
+
+    handleChangeSube(e){
+        e.preventDefault();
+        this.setState({ buttonChangeSube: !this.state.buttonChangeSube })
     }
 
     handleChange(e){
@@ -83,6 +90,8 @@ class ProfileContainer extends Component {
         }
     }
 
+
+
     deleteUser(e){
         e.preventDefault();
         axios.delete('/api/usuarios/',{ params: {id: this.state.controledUser.id} })
@@ -92,7 +101,17 @@ class ProfileContainer extends Component {
 
     render() {
         return(
-                <UserForm logout={this.props.logOut} switcher={this.state.switcher} user={this.state.controledUser} handleSwitch={this.handleSwitch} handleChange={this.handleChange} deleteUser={this.deleteUser} changeSube={this.remplaceIdSube} handleSubmit={this.handleSubmit} handleAdminMaker={this.handleAdminMaker}/>
+                <UserForm logout={this.props.logOut} 
+                switcher={this.state.switcher} 
+                handleInputChangeSube={this.handleInputChangeSube} 
+                changeSubeButton={this.state.buttonChangeSube}
+                handleChangeSube={this.handleChangeSube}
+                user={this.state.controledUser} 
+                handleSwitch={this.handleSwitch} 
+                handleChange={this.handleChange} 
+                deleteUser={this.deleteUser} 
+                handleSubmit={this.handleSubmit} 
+                handleAdminMaker={this.handleAdminMaker}/>
         )
     }
 }
