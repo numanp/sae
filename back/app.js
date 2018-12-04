@@ -77,7 +77,7 @@ app.use('/*', (req, res) => {
 var Callback = function(){
   this.onStart = function(){
     console.log('onStart');
-    accessControl(15)
+    accessControl('15')
   };
   this.onUid = function(uid){
     console.log('onUid');

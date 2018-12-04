@@ -111,7 +111,8 @@ class ProfileContainer extends Component {
                 handleChange={this.handleChange} 
                 deleteUser={this.deleteUser} 
                 handleSubmit={this.handleSubmit} 
-                handleAdminMaker={this.handleAdminMaker}/>
+                handleAdminMaker={this.handleAdminMaker}
+                loggedUser={this.props.loggedUser} />
         )
     }
 }
@@ -120,6 +121,7 @@ function mapStateToProps(state, ownProps){
     return {
         user: state.user.user,
         horarios:state.horarios,
+        loggedUser : state.user.loggedUser
     }
 }
 function mapDispatchToProps(dispatch, ownProps){
