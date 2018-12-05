@@ -75,12 +75,9 @@ class HomeContainer extends Component{
             subeId: 0,
             buttonChange: false,
         }
-    this.handleSubeInput = this.handleSubeInput.bind(this)
+    //this.handleSubeInput = this.handleSubeInput.bind(this)
     this.handleButtonChange = this.handleButtonChange.bind(this)
     }
-
-
-
     handleButtonChange(e){
         e.preventDefault();
         this.setState({ buttonChange: !this.state.buttonChange })
