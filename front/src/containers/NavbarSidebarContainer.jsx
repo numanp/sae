@@ -179,6 +179,7 @@ class NavbarSidebarContainer extends React.Component {
             
             <Typography component={Link} to="/login" className={classes.menuButtonRight} style={{ color: '#FFFFFF', fontFamily: 'Roboto', fontSize: '1.2em', textDecoration: 'none' }} onClick={() => this.handleLogOut() }>Logout</Typography>
 
+
           </Toolbar>
           
         </AppBar>

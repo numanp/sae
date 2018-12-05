@@ -71,3 +71,7 @@ export const logOutUser = () => dispatch => {
     axios.get('/api/usuarios/logout')
     .then(nothing => dispatch(endSession()));
 }
+export const denunciarSUBE = subeId => dispatch => {
+    axios.put('/api/usuarios/denuncia', { subeId })
+    .then(res=>console.log(res.data))
+}

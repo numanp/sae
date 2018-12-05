@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { Link, Route, Switch, Redirect } from 'react-router-dom';
 import {connect} from 'react-redux';
 import { isLogged } from '../redux/actions/userActions';
@@ -6,11 +6,9 @@ import { isLogged } from '../redux/actions/userActions';
 //CONTAINERS
 import ListaUsuarios from './ListaUsuariosContainers'
 import HomeContainer from './HomeContainer'
-import Horarios from '../components/Horarios';
 import LogIn from './LogInContainer'
 import NavbarSidebarContainer from './NavbarSidebarContainer'
 import ProfileContainer from './ProfileContainer';
-import { func } from 'prop-types';
 import HistoriesContainer from './HistoriesContainer';
 
 
@@ -26,14 +24,11 @@ class Main extends React.Component{
     }
     render(){
         return (    
-                <div>
-                    
-                    {/* <NavbarSidebarContainer /> */}
+                <div>                    
                     <Route path='/*' component={NavbarSidebarContainer} />
-                   
                     <Switch>
                         {(this.props.loggedUser) ? (
-                            <div> 
+                            <Fragment> 
                                 <Route exact path="/" render={() => (
                                     <Redirect to="/home"/>
                                 )}/>
@@ -42,9 +37,9 @@ class Main extends React.Component{
                                 <Route path='/lista' component={ListaUsuarios} />    
                                 <Route path='/userprofile/:id' component={ProfileContainer} />
                                 <Route exact path='/userprofile' component={ProfileContainer} />
-                            </div>) 
+                            </Fragment>) 
                             :
-
+                            
                             <Route path='/' component={LogIn}  />
                         }
                     </Switch>
@@ -71,19 +66,3 @@ function mapDispatchToProps(dispatch){
     }
 };
 export default connect(mapStateToProps,mapDispatchToProps)(Main)
-
-
-
-{/* <Switch>
-{(this.props.loggedUser) ? (
-    <div> 
-        <Route path='/home' component={HomeContainer} />
-        <Route path='/horarios' component={Horarios} />
-        <Route path='/lista' component={ListaUsuarios} />    
-        <Route path='/userprofile/:id' component={ProfileContainer} />
-        <Route exact path='/userprofile' component={ProfileContainer} />
-    </div>) 
-    :
-    <Route path='/' component={LogIn}  />
-}
-</Switch> */}

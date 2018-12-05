@@ -39,7 +39,7 @@ export default ({user, handleSubmit, deleteUser, handleSwitch, changeSubeButton,
                     <RadioAdminContainer handleChange={handleChange} user={user.levelAccess} />
                     </Grid>
                     <Grid container item justify='center' xs={12} md={12} style={{margin:'5% auto'}}>
-                        <Grid item xs={12} md={10} style={{margin:'1% 0'}} > <Button fullWidth variant="contained" color="secondary" onClick={handleSubmit}> {user.nombre ? 'Guardar modificaciones' : 'Guardar usuario'} </Button> </Grid>
+                        <Grid item xs={12} md={10} style={{margin:'1% 0'}}> <Button fullWidth variant="contained" color="primary" onClick={handleSubmit}> {user.nombre ? 'Guardar modificaciones' : 'Guardar usuario'} </Button> </Grid>
                         {user.id ? <Grid item xs={12} md={10} style={{margin:'1% 0'}}> <Button fullWidth variant="contained" color="primary" type="submit" onClick={handleChangeSube}> Cambiar sube </Button> </Grid>: null }
                         {user.id ? <Grid item xs={12} md={10} style={{margin:'1% 0'}}> <Button fullWidth variant="contained" color="secondary" onClick={deleteUser} > Eliminar usuario </Button> </Grid> : null}
                     </Grid>
@@ -127,8 +127,11 @@ export default ({user, handleSubmit, deleteUser, handleSwitch, changeSubeButton,
                             type="text"
                             margin="normal"
                             variant="outlined"
-                            value={user.subeId}
+                           // className={user.denuncia ? 'subeDenunciada' : ''}
+                            value={user.denuncia ? 'SUBE denunciada, cambiar.' : user.subeId}
                         />
+                        {user.denuncia ? '' : <Button fullWidth variant="contained" color="secondary" type="submit" onClick={denunciarSUBE}> Denunciar SUBE </Button>}
+                        
                     </Grid>
                     <Grid container item xs={10} md={12}  style={{margin:'0 auto'}}> 
                         <FormControlLabel
@@ -142,7 +145,6 @@ export default ({user, handleSubmit, deleteUser, handleSwitch, changeSubeButton,
                                 />
                             }
                         />
-
                         {user.id ? (switcher ?
                             <Grid container item xs={12}>
                             <Horarios />

@@ -60,6 +60,10 @@ const User = db.define('user', {
         levelAccess: {
             type: Sequelize.STRING,
         },
+        denuncia : {
+            type : Sequelize.BOOLEAN,
+            defaultValue : false
+        },
         subeId: {
             type: Sequelize.STRING,
             allowNull : false,
