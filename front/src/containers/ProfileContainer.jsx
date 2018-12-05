@@ -30,6 +30,8 @@ class ProfileContainer extends Component {
         this.handleSubmit = this.handleSubmit.bind(this)
         this.deleteUser = this.deleteUser.bind(this)
         this.handleChangeSube = this.handleChangeSube.bind(this)
+        this.handleOnDrop = this.handleOnDrop.bind(this)
+        this.bindSetState = this.bindSetState.bind(this)
         // horarioMaxthis.handleAdminMaker = this.handleAdminMaker.bind(this)
     }
 
@@ -44,6 +46,51 @@ class ProfileContainer extends Component {
             controledUser : nextProps.user
         })
     }
+
+    bindSetState(value){
+        console.log(value)
+        this.setState({
+            controledUser: {
+                ...this.state.controledUser,
+                imgPerfil: value
+            }
+        })
+    console.log('LLEGOOOOO', this.state)
+    }
+
+    handleOnDrop(files, rejectedFiles,e) {
+        let changeFiles = files[0]
+        e.preventDefault()
+        if(rejectedFiles && rejectedFiles.length > 0){
+            const currentRejectedFile = currentRejectedFile[0]
+            const currentRejectedFileSize = currentRejectedFile.size
+            if(currentRejectedFileSize > 250000){
+                alert('Los MB de la imagen es demasiado grande')
+            }
+        }
+
+        const bindThis = this
+
+        function getBase64(file) {
+            var reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = function () {
+              bindThis.bindSetState(reader.result)
+            };
+            reader.onerror = function (error) {
+              console.log('Error: ', error);
+            };
+         }
+        //  return new Promise(function(resolve) {
+        //     resolve(fn)
+        // })
+        // .then((res) => (res.data.id) ? this.props.history.push(`/userProfile/${res.data.id}`):
+        // this.props.history.push('/userProfile/')
+        // )
+         getBase64(changeFiles)
+
+    }
+    
 
     handleSwitch(e){
         e.preventDefault();
@@ -102,7 +149,8 @@ class ProfileContainer extends Component {
     render() {
         return(
                 <UserForm logout={this.props.logOut} 
-                switcher={this.state.switcher} 
+                switcher={this.state.switcher}
+                handleOnDrop = {this.handleOnDrop}
                 handleInputChangeSube={this.handleInputChangeSube} 
                 changeSubeButton={this.state.buttonChangeSube}
                 handleChangeSube={this.handleChangeSube}
@@ -111,7 +159,8 @@ class ProfileContainer extends Component {
                 handleChange={this.handleChange} 
                 deleteUser={this.deleteUser} 
                 handleSubmit={this.handleSubmit} 
-                handleAdminMaker={this.handleAdminMaker}/>
+                handleAdminMaker={this.handleAdminMaker}
+                loggedUser={this.props.loggedUser} />
         )
     }
 }
@@ -120,6 +169,7 @@ function mapStateToProps(state, ownProps){
     return {
         user: state.user.user,
         horarios:state.horarios,
+        loggedUser : state.user.loggedUser
     }
 }
 function mapDispatchToProps(dispatch, ownProps){

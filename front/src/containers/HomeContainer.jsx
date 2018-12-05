@@ -75,7 +75,7 @@ class HomeContainer extends Component{
             subeId: 0,
             buttonChange: false,
         }
-    this.handleSubeInput = this.handleSubeInput.bind(this)
+    // this.handleSubeInput = this.handleSubeInput.bind(this)
     this.handleButtonChange = this.handleButtonChange.bind(this)
     }
 
@@ -88,7 +88,7 @@ class HomeContainer extends Component{
 
     render(){
         const { classes, theme } = this.props;
-        console.log(this.props)
+
         return(
             <div>
                 <Grid container className={classes.root} spacing={8}>
