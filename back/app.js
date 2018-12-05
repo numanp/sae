@@ -43,11 +43,11 @@ app.use('/creador', ()=>{
   User.create({
     nombre : faker.name.firstName(),
     apellido : faker.name.lastName(),
-    email : 'sebacomas@gmail.com.com',
-    password : 'sebastian01',
+    email : 'numanp_92@hotmail.com',
+    password : '12345678',
     dni : 37038970,
     telefono : 47854514,
-    imgPerfil : 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png',
+    // imgPerfil : 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png',
     levelAccess : 'SuperAdmin',
     subeId : '81,72,89,211'
   }).then(user => {

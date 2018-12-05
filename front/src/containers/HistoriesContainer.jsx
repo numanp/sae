@@ -77,7 +77,6 @@ class HistoriesContainer extends React.Component {
         const { rowsPerPage, page } = this.state; 
 
         const emptyRows = rowsPerPage - Math.min(rowsPerPage, (logs[0] ? logs.length : 0) - page * rowsPerPage);   
-        console.log(this.props)
         return(
             <Paper className={classes.root}>
         <div className={classes.tableWrapper}>
