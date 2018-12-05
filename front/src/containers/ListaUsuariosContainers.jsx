@@ -69,8 +69,8 @@ class ListaUsuariosContainer extends React.Component {
           this.handleChange=this.handleChange.bind(this);
     }
 componentDidMount(){  
-    this.props.users.length ? this.setState({lista: this.props.users}) :
-    this.props.fetchUsers();
+  this.props.users.length ? this.setState({lista: this.props.users}) :
+  this.props.fetchUsers();
   
 };
   handleChangePage = (event, page) => {

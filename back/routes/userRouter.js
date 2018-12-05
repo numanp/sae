@@ -72,19 +72,11 @@ router.put('/', (req, res) => {
         dni: req.body.dni,
         telefono: req.body.telefono,
         subeId: req.body.subeId,
+        denuncia : req.body.denuncia
       })
     })
     .then(()=>res.sendStatus(200)) 
 });
-//quizas haya que eliminarla, cambia el id de la sube de un usuario especifico
-// router.put('/subeId', (req, res) => {
-//   User.findById(req.body.userId).then(user =>
-//     //User.findById(req.params.userId).then(user =>
-//     user.update({ subeId: req.body.subeId }).then(() => {
-//       res.status(200).send(subeId, 'sube de usuario modificada ');
-//     }),
-//   );
-// });
 
 router.get('/subeId', (req, res) => {
   // console.log(req.query)
@@ -120,9 +112,22 @@ router.post('/login', passport.authenticate('local'), (req, res) => {
                 telefono: req.user.telefono,
                 imagenPerfil: req.user.imagenPerfil,
                 levelAccess: req.user.levelAccess,
-                subeId: req.user.subeId
+                subeId: req.user.subeId,
+                denuncia : req.user.denuncia
             }) 
         }
     }
 )
+router.put('/denuncia', (req, res) =>{
+  User.findOne({
+    where : {
+      subeId : req.body.subeId
+    }
+  })
+  .then(user => {
+    user.update({
+      denuncia : true
+    })
+  })
+})
 module.exports = router;

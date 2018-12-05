@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { getUser, removeUser, makeUserAdmin, remplaceIdSube, updateUser, createUser } from '../redux/actions/userActions';
+import { getUser, removeUser, makeUserAdmin, remplaceIdSube, updateUser, createUser, denunciarSUBE } from '../redux/actions/userActions';
 import axios from 'axios'
 
 import UserForm from '../components/UserForm'
@@ -23,6 +23,7 @@ class ProfileContainer extends Component {
                 password: '',
                 subeId: '',
                 telefono: 0,
+                denuncia : false
             }
         }
         this.handleSwitch = this.handleSwitch.bind(this)
@@ -31,6 +32,7 @@ class ProfileContainer extends Component {
         this.deleteUser = this.deleteUser.bind(this)
         this.handleChangeSube = this.handleChangeSube.bind(this)
         // horarioMaxthis.handleAdminMaker = this.handleAdminMaker.bind(this)
+        this.denunciarSUBE = this.denunciarSUBE.bind(this);
     }
 
     componentDidMount() {
@@ -52,7 +54,11 @@ class ProfileContainer extends Component {
 
     handleChangeSube(e){
         e.preventDefault();
-        this.setState({ buttonChangeSube: !this.state.buttonChangeSube })
+        this.setState({ buttonChangeSube: !this.state.buttonChangeSube,
+                        controledUser : {
+                            ...this.state.controledUser,
+                            denuncia : false
+                        } })
     }
 
     handleChange(e){
@@ -89,7 +95,14 @@ class ProfileContainer extends Component {
             this.props.createUser(this.state.controledUser)
         }
     }
-
+    denunciarSUBE(){
+        let alturo = Object.assign({}, this.state.controledUser)
+        alturo.denuncia = true;
+        this.setState({
+            controledUser : alturo
+        })
+        this.props.denunciarSUBE(this.state.controledUser.subeId)
+    }
 
 
     deleteUser(e){
@@ -112,7 +125,8 @@ class ProfileContainer extends Component {
                 deleteUser={this.deleteUser} 
                 handleSubmit={this.handleSubmit} 
                 handleAdminMaker={this.handleAdminMaker}
-                loggedUser={this.props.loggedUser} />
+                loggedUser={this.props.loggedUser}
+                denunciarSUBE={this.denunciarSUBE} />
         )
     }
 }
@@ -146,6 +160,9 @@ function mapDispatchToProps(dispatch, ownProps){
         },
         fetchUsers: () => {
             dispatch(fetchUsers())
+        },
+        denunciarSUBE: (subeId) => {
+            dispatch(denunciarSUBE(subeId))
         }
     }
 }
