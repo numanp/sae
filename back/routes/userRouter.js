@@ -18,12 +18,19 @@ router.get('/', (req, res) => {
     User.findAll({include:[Horarios]})
     .then(users => res.send(users))
 })
-router.get('/horario',(req,res) => {
-    Horarios.findById(req.query.state)
-    .then(data => res.send(data))
+router.get('/horario',(req,res) => {  console.log('entrando a buscar horarios',req.query.state)
+
+    User.findByPk(req.query.state)
+    .then(usuario => usuario ?    
+      Horarios.findByPk(usuario.dataValues.horarioId)
+      .then(data => res.send(data))
+      : usuario
+    )
 })
 router.put('/horario/update',(req,res) => {
-    Horarios.findById(req.body.userId)
+  User.findByPk(req.body.userId)
+  .then(usuario => 
+    Horarios.findByPk(usuario.dataValues.horarioId)
     .then(horario => 
       horario.update({
         dias:req.body.dateTime.dias,
@@ -33,9 +40,12 @@ router.put('/horario/update',(req,res) => {
         horarioMax: req.body.dateTime.horarioMax,
       })
       )
+  )
 })
 //crea un usuario y lo envia
 router.post('/', (req, res) =>{
+  console.log('creando usuario',req.body);
+  
   User.create({
     nombre : req.body.nombre,
     apellido: req.body.apellido,
@@ -47,7 +57,20 @@ router.post('/', (req, res) =>{
     telefono: req.body.telefono,
     subeId: req.body.subeId,
   })
-  .then(user => res.send(user))
+  .then(user => {
+    Horarios.create({
+      dias: req.body.dias,
+      fechaInicio: req.body.selectedDateInicio,
+      fechaFin: req.body.selectedDateFin,
+      horarioMin: new Date(req.body.selectedTimeMin).toLocaleTimeString('en-GB'),
+      horarioMax: new Date(req.body.selectedTimeMax).toLocaleTimeString('en-GB'),
+    })
+    .then(horario => {
+      user.setHorario(horario);
+    })
+    .catch((e)=>console.log(e)) 
+    res.status(200).send(user)
+  })
   .catch(e => res.send(e));
 })
 

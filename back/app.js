@@ -40,27 +40,30 @@ const History = require('./db/models/Histories')
 
 //ROUTES
 app.use('/creador', ()=>{
-  User.create({
-    nombre : faker.name.firstName(),
-    apellido : faker.name.lastName(),
-    email : 'sebacomas@gmail.com.com',
-    password : 'sebastian01',
-    dni : 37038970,
-    telefono : 47854514,
-    imgPerfil : 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png',
-    levelAccess : 'SuperAdmin',
-    subeId : '81,72,89,211'
-  }).then(user => {
-    Horarios.create({
-      dias: ['Lunes','Miércoles','Viernes'],
-      fechaInicio: 'August 2, 2018',
-      fechaFin: 'August 1, 2019',
-      horarioMin: '08:37:00',
-      horarioMax: '20:27:00',
-    })
-    .then(horario => {
-      user.setHorario(horario);
-    })
+  // User.create({
+  //   nombre : 'Luis Sebastián',
+  //   apellido : 'Comas',
+  //   email : 'sebacomas@gmail.com',
+  //   password : 'sebastian01',
+  //   dni : 32158359,
+  //   telefono : 5174183,
+  //   imgPerfil : 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png',
+  //   levelAccess : 'SuperAdmin',
+  //   subeId : '81,72,89,211'
+  // })
+  User.findByPk(1)
+  .then(user => {
+    // Horarios.create({
+    //   dias: ['Lunes','Miércoles','Viernes'],
+    //   fechaInicio: 'August 30, 2018',
+    //   fechaFin: 'August 1, 2019',
+    //   horarioMin: '08:00:00',
+    //   horarioMax: '18:30:00',
+    // })
+    // .then(horario => {
+    //   user.setHorario(horario);
+    // })
+   user.update({password: 'sebastian01'})
 
   })
 })
@@ -77,7 +80,7 @@ app.use('/*', (req, res) => {
 var Callback = function(){
   this.onStart = function(){
     console.log('onStart');
-    accessControl(15)
+    accessControl('15')
   };
   this.onUid = function(uid){
     console.log('onUid');
