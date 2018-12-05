@@ -5,12 +5,16 @@ import Switch from '@material-ui/core/Switch';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
+import Dropzone from 'react-dropzone';
+
 import Horarios from './Horarios';
 import RadioAdminContainer from  '../containers/RadioAdminContainer'
 import HistoriesContainer from '../containers/HistoriesContainer';
 import SubeChange from '../containers/SubeChangeContainer'
 
-export default ({user, handleSubmit, deleteUser, handleSwitch, changeSubeButton, switcher, handleChange, handleChangeSube, loggedUser, denunciarSUBE}) => (
+const imageMaxSize = 250000;
+
+export default ({user, handleSubmit, deleteUser, handleSwitch, changeSubeButton, switcher, handleChange, handleChangeSube, handleOnDrop}) => (
     <Paper style={{width:'95%', margin:'auto'}}>
     {(changeSubeButton) ? <SubeChange 
                                 user={user}  
@@ -21,7 +25,15 @@ export default ({user, handleSubmit, deleteUser, handleSwitch, changeSubeButton,
             <Grid container item xs={12} md={12}>
                 <Grid item xs={12} md={3} >
                     <Grid container justify='center' style={{margin:'0 auto'}}>
-                        <img className="profile-pic" src={`${user.imgPerfil}`} alt=""/>
+                        {(user.imgPerfil) !== null ? <img style={{ width: '250px', height: '250px', objectFit: 'cover'}} src={(`${user.imgPerfil}`)} alt=""/> : <Dropzone
+                            multiple={false}
+                            accept="image/jpg,image/png"
+                            onDrop={handleOnDrop}
+                            maxSize= {imageMaxSize}
+                            >
+                            
+                            <p>Subí tu foto!</p>
+                        </Dropzone>}
                     </Grid>
                     <Grid container item md={12} style={{margin:'5% auto'}}>
                     <RadioAdminContainer handleChange={handleChange} user={user.levelAccess} />
