@@ -81,7 +81,7 @@ export default ({user, handleSubmit, deleteUser, handleSwitch, changeSubeButton,
                             onChange={(e)=>handleChange(e)}
                         />
                     </Grid>
-                    {/* {user.id === loggedUser.id ? (<Grid item xs={6} md={6}> */}
+                    {user.id === loggedUser.id ? (<Grid item xs={6} md={6}>
                         <TextField 
                             id="password"
                             label="Contraseña"
@@ -92,7 +92,7 @@ export default ({user, handleSubmit, deleteUser, handleSwitch, changeSubeButton,
                             value={user.password}
                             onChange={(e)=>handleChange(e)}
                         /> 
-                    {/* </Grid>) : '' } */}
+                    </Grid>) : '' }
                     
                     <Grid item xs={6} md={6}>
                         <TextField 
