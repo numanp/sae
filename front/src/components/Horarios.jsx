@@ -31,11 +31,12 @@ class Horarios extends PureComponent{
     constructor(props){
         super(props);
     }
-    componentDidMount(){
-        console.log(this.props.user.id)
-        
-        this.props.fetchDateAndTime(this.props.user.id);  
-    }   
+    // componentDidMount(){          
+    //     this.props.fetchDateAndTime(this.props.userId);  
+    // }   
+    // componentWillReceiveProps(nextProps){
+    //     this.props.fetchDateAndTime(nextProps.userId);  
+    // }
     //Cada uno de los handleChange* sirve para cambiar el parametro especifico
     // (fecha inicial, fecha final, horario mínimo, horario máximo)
       handleDateChangeInicio = date => {

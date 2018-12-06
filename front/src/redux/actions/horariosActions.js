@@ -1,4 +1,5 @@
 import axios from 'axios';
+import Redirect from 'react-router-dom/Redirect';
 
 const getDateAndTime = (obj)=>({
     type:'FETCH_DATE_TIME',
@@ -27,14 +28,24 @@ const horaFin = (horaF) => ({
 
 export const fetchDateAndTime = (userId) => (dispatch) => {
     axios.get('/api/usuarios/horario',{params:{state:userId}})
-    .then(res=>{
-        var a=res.data.fechaInicio           
-        var h=res.data.horarioMin
-        var options = { year: 'numeric', month: 'long', day: 'numeric' };
-        var f= new Date(a.concat(' ',h))
-        var a1=res.data.fechaFin
-        var h1=res.data.horarioMax
-        var f1= new Date(a1.concat(' ',h1))
+    .then(res=>{        
+        if(!res.data){ //si no hay un id de usuario(cuando estoy creando uno nuevo) me devuelve un default
+            res.data = {
+            dias: ['Lunes','Miércoles','Viernes'],
+            fechaInicio: 'August 2, 2018',
+            fechaFin: 'August 30, 2018',
+            horarioMin: '08:00:00',
+            horarioMax: '14:00:00',
+            }
+        }
+            var a=res.data.fechaInicio           
+            var h=res.data.horarioMin
+            var options = { year: 'numeric', month: 'long', day: 'numeric' };
+            var f= new Date(a.concat(' ',h))
+            var a1=res.data.fechaFin
+            var h1=res.data.horarioMax
+            var f1= new Date(a1.concat(' ',h1))
+        
         dispatch(getDateAndTime({
             dias:res.data.dias,
             selectedDateInicio:f.toLocaleDateString('en-US',options),

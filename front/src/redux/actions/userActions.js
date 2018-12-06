@@ -12,6 +12,10 @@ const idSubeChange = (changeSube) => ({
     type: 'CHANGE_SUBE',
     changeSube
 })
+const newSube = (sube) => ({
+    type: 'NEW_SUBE',
+    sube
+})
 const newUser = (userCreation) => ({
     type: 'CREATE_USER',
     userCreation
@@ -40,9 +44,11 @@ export const updateUser = (usuario) => (dispatch) => {
     dispatch(modificaUsuario(usuario))
 }
 export const createUser = (user) => (dispatch) => {
-    axios.post('/api/usuarios/', user)
+    return axios.post('/api/usuarios/', user)
     .then(res => res.data)
-    .then(data => dispatch(newUser(data)))
+    .then(data => {dispatch(newUser(data))
+    return data;
+    })
 }
 export const makeUserAdmin = (userId) => (dispatch) => {
     axios.put(`/api/usuarios/makeAdmin/`,{userId})
@@ -70,6 +76,9 @@ export const isLogged = () => dispatch => {
 export const logOutUser = () => dispatch => {
     axios.get('/api/usuarios/logout')
     .then(nothing => dispatch(endSession()));
+}
+export const addSube = (idSube) => (dispatch) => {
+    dispatch(newSube(idSube))
 }
 export const denunciarSUBE = subeId => dispatch => {
     axios.put('/api/usuarios/denuncia', { subeId })

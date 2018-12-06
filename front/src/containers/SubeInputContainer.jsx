@@ -3,10 +3,11 @@ import { connect } from 'react-redux';
 import Paper from '@material-ui/core/Paper'; 
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
-import PropTypes from 'prop-types';
+import PropTypes, { func } from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import axios from 'axios'
+import { addSube } from '../redux/actions/userActions'
 import { Redirect, Link } from 'react-router-dom';
 
 import { fetchUsers } from '../redux/actions/allUsersActions'
@@ -48,22 +49,23 @@ class SubeInput extends Component{
     }
 
     handleChange(e){
-        console.log('HANDLE', e.target.value)
-        e.preventDefault();
-        <Link to= "/subecontainer" />
         let valueInput = e.target.value
-        // let hexString = valueInput.toString(16);
         this.setState({ inputForm: valueInput })
     }
 
     handleSubmitSube(e){
-        e.preventDefault();
-        let fn = axios.get('/api/usuarios/subeId', {params: {inputForm: this.state.inputForm}})
-        return new Promise(function(resolve) {
-            resolve(fn)
-        })
+        e.preventDefault(); 
+        const hex = parseInt(this.state.inputForm,10).toString(16);
+        const aux = [];
+        for (let i = 0; i < hex.length; i++) {
+            aux.unshift(parseInt(hex.slice(i,i+2),16))
+            i++;  
+        }
+        // console.log(aux.join());
+        this.props.nuevaSube(aux.join())
+        axios.get('/api/usuarios/subeId', {params: {inputForm: aux.join()}})
         .then((res) => (res.data.id) ? this.props.history.push(`/userProfile/${res.data.id}`):
-        this.props.history.push('/userProfile/')
+            this.props.history.push('/userProfile/')
         )
     }
 
@@ -73,8 +75,6 @@ class SubeInput extends Component{
 
     render(){
         const { classes, theme } = this.props;
-        // console.log('STATE', this.state)
-        console.log('PROPS Input',this.props)
         return(
             <Paper className={classes.paperZprops}>
                 <Grid item container xs={12} md={12} >
@@ -89,6 +89,7 @@ class SubeInput extends Component{
                     variant="outlined"
                     fullWidth
                     value= {this.state.inputForm}
+                    onKeyPress ={ e => e.charCode == 13 ? this.handleSubmitSube(e): null }
                     />
                 </Grid>
                 <Grid item xs={6} md={6} style={{margin:'0 auto'}} > <Button fullWidth variant="contained" color="secondary" onClick={this.handleSubmitSube}> Busca tu sube! </Button> </Grid>
@@ -98,7 +99,6 @@ class SubeInput extends Component{
 }
 
 function mapStateToProps(state){
-    console.log('STATE GLOBAL', state)
     return{
         allUsers: state.users
     }
@@ -108,6 +108,9 @@ function mapDispatchToProps(dispatch){
     return{
         fetchUsers: function(){
             dispatch(fetchUsers())
+        },
+        nuevaSube: function(idSube){
+            dispatch(addSube(idSube))
         }
     }
 }
@@ -117,15 +120,3 @@ SubeInput.propTypes = {
   };
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(SubeInput))
-
-
-
-// handleSubmitSube(e){
-//     e.preventDefault();
-//     let fn = axios.get('/api/usuarios/subeId', {params: {inputForm: this.state.inputForm}})
-//     return new Promise(function(resolve) {
-//         resolve(fn)
-//     })
-//     .then((res) => this.props.history.push(`/userProfile/${res.data.id}`))
-    
-// }

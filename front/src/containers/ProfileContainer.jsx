@@ -2,9 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { getUser, removeUser, makeUserAdmin, remplaceIdSube, updateUser, createUser, denunciarSUBE } from '../redux/actions/userActions';
 import axios from 'axios'
-
 import UserForm from '../components/UserForm'
-import { updateDateAndTime } from '../redux/actions/horariosActions';
+import { updateDateAndTime, fetchDateAndTime } from '../redux/actions/horariosActions';
 import { fetchUsers } from '../redux/actions/allUsersActions';
 
 class ProfileContainer extends Component {
@@ -16,7 +15,7 @@ class ProfileContainer extends Component {
             controledUser: {
                 nombre: '',
                 apellido: '',
-                dni: 0,
+                dni: '',
                 email: '',
                 imgPerfil: '',
                 levelAccess: '',
@@ -41,7 +40,10 @@ class ProfileContainer extends Component {
         var aux = this.props.match.params.id
         if(aux){
             this.props.getUser(aux)
-        }        
+            this.props.fetchDateAndTime(aux); 
+        }else{
+            this.setState({controledUser:{subeId:this.props.user.subeId}})
+        } 
     }
     componentWillReceiveProps(nextProps){
         this.setState({
@@ -122,24 +124,27 @@ class ProfileContainer extends Component {
     }
 
     handleSubmit(e){
-        e.preventDefault();
-       
-        
+        e.preventDefault();        
         if(this.state.controledUser.id){  
             if(this.props.horarios.dias){        
             this.props.updateDateAndTime(this.props.match.params.id,{
                 dias:this.props.horarios.dias,
                 fechaInicio:this.props.horarios.selectedDateInicio,
                 fechaFin:this.props.horarios.selectedDateFin,
-                horarioMin:this.props.horarios.selectedTimeMin.toString().slice(15,24),
-                horarioMax: this.props.horarios.selectedTimeMax.toString().slice(15,24)
+                horarioMin: new Date(this.props.horarios.selectedTimeMin).toLocaleTimeString('en-GB'),
+                horarioMax: new Date(this.props.horarios.selectedTimeMax).toLocaleTimeString('en-GB')
                 })
-            }
+            }            
             axios.put('/api/usuarios/', this.state.controledUser)
             .then(alert('Se ha modificado el usuario correctamente'))
             .then(() => this.props.fetchUsers())
         } else {
-            this.props.createUser(this.state.controledUser)
+            const objNuevo = {...this.state.controledUser, ...this.props.horarios}            
+            // let fn = this.props.createUser(objNuevo)
+            axios.post('/api/usuarios/', objNuevo)
+            .then(() => this.props.fetchUsers())
+            .then(alert('Se ha creado un nuevo usuario'))
+            .then(() => this.props.history.push('/home/'))
         }
     }
     denunciarSUBE(){
@@ -208,6 +213,9 @@ function mapDispatchToProps(dispatch, ownProps){
         },
         fetchUsers: () => {
             dispatch(fetchUsers())
+        },
+        fetchDateAndTime: function(userID){
+            dispatch(fetchDateAndTime(userID))
         },
         denunciarSUBE: (subeId) => {
             dispatch(denunciarSUBE(subeId))
