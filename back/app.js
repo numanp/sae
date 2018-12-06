@@ -14,8 +14,6 @@ var mfrc522 = require('MFRC522-node');
 const { accessControl } = require('./functions/access')
 const db = require('./db/index');
 db.sync({force : false});
-
-
 //APP
 var app = express();
 app.use(bodyParser.urlencoded({extended: true}));
@@ -29,54 +27,43 @@ app.use(express.static(path.join(__dirname, '../front/dist')));
 // console.log(path.join(__dirname, '../front/dist'))
 // app.use(express.static('../front/dist'));
 // app.use(express.static(path.resolve(__dirname,'/../front/dist')));
-
 //ROUTERS
 const userRouter = require('./routes/userRouter');
 const historyRouter = require('./routes/historyRouter');
 const User = require('./db/models/User');
 const Horarios = require('./db/models/Horarios');
 const History = require('./db/models/Histories')
-
-
 //ROUTES
 app.use('/creador', ()=>{
-  // User.create({
-  //   nombre : 'Luis Sebastián',
-  //   apellido : 'Comas',
-  //   email : 'sebacomas@gmail.com',
-  //   password : 'sebastian01',
-  //   dni : 32158359,
-  //   telefono : 5174183,
-  //   imgPerfil : 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png',
-  //   levelAccess : 'SuperAdmin',
-  //   subeId : '81,72,89,211'
-  // })
-  User.findByPk(1)
-  .then(user => {
-    // Horarios.create({
-    //   dias: ['Lunes','Miércoles','Viernes'],
-    //   fechaInicio: 'August 30, 2018',
-    //   fechaFin: 'August 1, 2019',
-    //   horarioMin: '08:00:00',
-    //   horarioMax: '18:30:00',
-    // })
-    // .then(horario => {
-    //   user.setHorario(horario);
-    // })
-   user.update({password: 'sebastian01'})
+  User.create({
+    nombre : faker.name.firstName(),
+    apellido : faker.name.lastName(),
+    email : 'santiagocasanova@hotmail.com',
+    password : '12345678',
+    dni : 37038970,
+    telefono : 47854514,
+    // imgPerfil : 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png',
+    levelAccess : 'SuperAdmin',
+    subeId : '81,72,89,211'
+  }).then(user => {
+    Horarios.create({
+      dias: ['Lunes','Miércoles','Viernes'],
+      fechaInicio: 'August 2, 2018',
+      fechaFin: 'August 1, 2019',
+      horarioMin: '08:37:00',
+      horarioMax: '20:27:00',
+    })
+    .then(horario => {
+      user.setHorario(horario);
+    })
 
   })
-})
-app.use('/droga', (req, res) => {
- 
-    
 })
 app.use('/api/logs', historyRouter);
 app.use('/api/usuarios', userRouter);
 app.use('/*', (req, res) => {
   res.sendFile(path.join(__dirname, '../front/index.html'));
 });
-
 var Callback = function(){
   this.onStart = function(){
     console.log('onStart');
@@ -92,7 +79,6 @@ var Callback = function(){
   };
 };
 mfrc522.start( new Callback() );
-
 //PASSPORT
 passport.use(new LocalStrategy({
   usernameField: 'email',
@@ -114,11 +100,9 @@ function(username, password, done) {
 passport.serializeUser(function(user, done) {
   done(null, user);
 });
-
 passport.deserializeUser(function(user, done) {
   done(null, user);
 });
-
 module.exports = app;
 
 // // catch 404 and forward to error handler

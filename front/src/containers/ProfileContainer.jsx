@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { getUser, remplaceIdSube, updateUser, createUser } from '../redux/actions/userActions';
+import { getUser, removeUser, makeUserAdmin, remplaceIdSube, updateUser, createUser, denunciarSUBE } from '../redux/actions/userActions';
 import axios from 'axios'
 import UserForm from '../components/UserForm'
 import { updateDateAndTime, fetchDateAndTime } from '../redux/actions/horariosActions';
@@ -11,6 +11,7 @@ class ProfileContainer extends Component {
         super(props)
         this.state = {
             switcher: false,
+            buttonChangeSube: false,
             controledUser: {
                 nombre: '',
                 apellido: '',
@@ -20,14 +21,19 @@ class ProfileContainer extends Component {
                 levelAccess: '',
                 password: '',
                 subeId: '',
-                telefono: '',
+                telefono: 0,
+                denuncia : false
             }
         }
         this.handleSwitch = this.handleSwitch.bind(this)
         this.handleChange = this.handleChange.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
         this.deleteUser = this.deleteUser.bind(this)
+        this.handleChangeSube = this.handleChangeSube.bind(this)
+        this.handleOnDrop = this.handleOnDrop.bind(this)
+        this.bindSetState = this.bindSetState.bind(this)
         // horarioMaxthis.handleAdminMaker = this.handleAdminMaker.bind(this)
+        this.denunciarSUBE = this.denunciarSUBE.bind(this);
     }
 
     componentDidMount() {
@@ -45,9 +51,63 @@ class ProfileContainer extends Component {
         })
     }
 
+    bindSetState(value){
+        console.log(value)
+        this.setState({
+            controledUser: {
+                ...this.state.controledUser,
+                imgPerfil: value
+            }
+        })
+    console.log('LLEGOOOOO', this.state)
+    }
+
+    handleOnDrop(files, rejectedFiles,e) {
+        let changeFiles = files[0]
+        e.preventDefault()
+        if(rejectedFiles && rejectedFiles.length > 0){
+            const currentRejectedFile = currentRejectedFile[0]
+            const currentRejectedFileSize = currentRejectedFile.size
+            if(currentRejectedFileSize > 250000){
+                alert('Los MB de la imagen es demasiado grande')
+            }
+        }
+
+        const bindThis = this
+
+        function getBase64(file) {
+            var reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = function () {
+              bindThis.bindSetState(reader.result)
+            };
+            reader.onerror = function (error) {
+              console.log('Error: ', error);
+            };
+         }
+        //  return new Promise(function(resolve) {
+        //     resolve(fn)
+        // })
+        // .then((res) => (res.data.id) ? this.props.history.push(`/userProfile/${res.data.id}`):
+        // this.props.history.push('/userProfile/')
+        // )
+         getBase64(changeFiles)
+
+    }
+    
+
     handleSwitch(e){
         e.preventDefault();
         this.setState({ switcher: !this.state.switcher })
+    }
+
+    handleChangeSube(e){
+        e.preventDefault();
+        this.setState({ buttonChangeSube: !this.state.buttonChangeSube,
+                        controledUser : {
+                            ...this.state.controledUser,
+                            denuncia : false
+                        } })
     }
 
     handleChange(e){
@@ -87,6 +147,15 @@ class ProfileContainer extends Component {
             .then(() => this.props.history.push('/home/'))
         }
     }
+    denunciarSUBE(){
+        let alturo = Object.assign({}, this.state.controledUser)
+        alturo.denuncia = true;
+        this.setState({
+            controledUser : alturo
+        })
+        this.props.denunciarSUBE(this.state.controledUser.subeId)
+    }
+
 
     deleteUser(e){
         e.preventDefault();
@@ -97,7 +166,20 @@ class ProfileContainer extends Component {
 
     render() {
         return(
-                <UserForm logout={this.props.logOut} switcher={this.state.switcher} user={this.state.controledUser} handleSwitch={this.handleSwitch} handleChange={this.handleChange} deleteUser={this.deleteUser} changeSube={this.remplaceIdSube} handleSubmit={this.handleSubmit} handleAdminMaker={this.handleAdminMaker}/>
+                <UserForm logout={this.props.logOut} 
+                switcher={this.state.switcher}
+                handleOnDrop = {this.handleOnDrop}
+                handleInputChangeSube={this.handleInputChangeSube} 
+                changeSubeButton={this.state.buttonChangeSube}
+                handleChangeSube={this.handleChangeSube}
+                user={this.state.controledUser} 
+                handleSwitch={this.handleSwitch} 
+                handleChange={this.handleChange} 
+                deleteUser={this.deleteUser} 
+                handleSubmit={this.handleSubmit} 
+                handleAdminMaker={this.handleAdminMaker}
+                loggedUser={this.props.loggedUser}
+                denunciarSUBE={this.denunciarSUBE} />
         )
     }
 }
@@ -106,6 +188,7 @@ function mapStateToProps(state, ownProps){
     return {
         user: state.user.user,
         horarios:state.horarios,
+        loggedUser : state.user.loggedUser
     }
 }
 function mapDispatchToProps(dispatch, ownProps){
@@ -134,6 +217,9 @@ function mapDispatchToProps(dispatch, ownProps){
         fetchDateAndTime: function(userID){
             dispatch(fetchDateAndTime(userID))
         },
+        denunciarSUBE: (subeId) => {
+            dispatch(denunciarSUBE(subeId))
+        }
     }
 }
 

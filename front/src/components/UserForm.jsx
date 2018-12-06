@@ -5,30 +5,45 @@ import Switch from '@material-ui/core/Switch';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
+import Dropzone from 'react-dropzone';
+
 import Horarios from './Horarios';
 import RadioAdminContainer from  '../containers/RadioAdminContainer'
 import HistoriesContainer from '../containers/HistoriesContainer';
+import SubeChange from '../containers/SubeChangeContainer'
 
+const imageMaxSize = 250000;
 
-export default ({user, handleSubmit, deleteUser, changeSUBE, handleSwitch, switcher, handleChange}) => (
+export default ({user, handleSubmit, deleteUser, handleSwitch, changeSubeButton, switcher, handleChange, handleChangeSube, handleOnDrop}) => (
     <Paper style={{width:'95%', margin:'auto'}}>
+    {(changeSubeButton) ? <SubeChange 
+                                user={user}  
+                                handleChangeSube={handleChangeSube}
+                                handleChange={handleChange} />
+                         : null}
         <Grid style={{width:'95%', margin:'0 auto', padding:'3% 0'}}>
             <Grid container item xs={12} md={12}>
                 <Grid item xs={12} md={3} >
                     <Grid container justify='center' style={{margin:'0 auto'}}>
-                        <img className="profile-pic" src={`${user.imgPerfil}`} alt=""/>
+                        {(user.imgPerfil) !== null ? <img style={{ width: '250px', height: '250px', objectFit: 'cover'}} src={(`${user.imgPerfil}`)} alt=""/> : <Dropzone
+                            multiple={false}
+                            accept="image/jpg,image/png"
+                            onDrop={handleOnDrop}
+                            maxSize= {imageMaxSize}
+                            >
+                            
+                            <p>Subí tu foto!</p>
+                        </Dropzone>}
                     </Grid>
                     <Grid container item md={12} style={{margin:'5% auto'}}>
                     <RadioAdminContainer handleChange={handleChange} user={user.levelAccess} />
                     </Grid>
                     <Grid container item justify='center' xs={12} md={12} style={{margin:'5% auto'}}>
-                        <Grid item xs={12} md={10} style={{margin:'1% 0'}} > <Button fullWidth variant="contained" color="secondary" onClick={handleSubmit}> {user.name ? 'Guardar modificaciones' : 'Guardar usuario'} </Button> </Grid>
-                        {user ? <Grid item xs={12} md={10} style={{margin:'1% 0'}}> <Button fullWidth variant="contained" color="secondary" onClick={deleteUser} > Eliminar usuario </Button> </Grid> : null}
-                        <Grid item xs={12} md={10} style={{margin:'1% 0'}}> <Button fullWidth variant="contained" color="primary">Cambiar horarios</Button> </Grid>
-                        {user ? <Grid item xs={12} md={10} style={{margin:'1% 0'}}> <Button fullWidth variant="contained" color="primary" type="submit"> Cambiar sube </Button> </Grid>: null }
+                        <Grid item xs={12} md={10} style={{margin:'1% 0'}}> <Button fullWidth variant="contained" color="primary" onClick={handleSubmit}> {user.nombre ? 'Guardar modificaciones' : 'Guardar usuario'} </Button> </Grid>
+                        {user.id ? <Grid item xs={12} md={10} style={{margin:'1% 0'}}> <Button fullWidth variant="contained" color="primary" type="submit" onClick={handleChangeSube}> Cambiar sube </Button> </Grid>: null }
+                        {user.id ? <Grid item xs={12} md={10} style={{margin:'1% 0'}}> <Button fullWidth variant="contained" color="secondary" onClick={deleteUser} > Eliminar usuario </Button> </Grid> : null}
                     </Grid>
                 </Grid>
-
                 <Grid container item spacing={16} xs={12} md={8}>
                     <Grid item xs={6} md={6}>
                         <TextField 
@@ -66,7 +81,7 @@ export default ({user, handleSubmit, deleteUser, changeSUBE, handleSwitch, switc
                             onChange={(e)=>handleChange(e)}
                         />
                     </Grid>
-                    <Grid item xs={6} md={6}>
+                    {user.id === loggedUser.id ? (<Grid item xs={6} md={6}>
                         <TextField 
                             id="password"
                             label="Contraseña"
@@ -77,7 +92,8 @@ export default ({user, handleSubmit, deleteUser, changeSUBE, handleSwitch, switc
                             value={user.password}
                             onChange={(e)=>handleChange(e)}
                         /> 
-                    </Grid>
+                    </Grid>) : '' }
+                    
                     <Grid item xs={6} md={6}>
                         <TextField 
                             fullWidth
@@ -111,8 +127,11 @@ export default ({user, handleSubmit, deleteUser, changeSUBE, handleSwitch, switc
                             type="text"
                             margin="normal"
                             variant="outlined"
-                            value={user.subeId}
+                           // className={user.denuncia ? 'subeDenunciada' : ''}
+                            value={user.denuncia ? 'SUBE denunciada, cambiar.' : user.subeId}
                         />
+                        {user.denuncia ? '' : <Button fullWidth variant="contained" color="secondary" type="submit" onClick={denunciarSUBE}> Denunciar SUBE </Button>}
+                        
                     </Grid>
                     <Grid container item xs={10} md={12}  style={{margin:'0 auto'}}> 
                         <FormControlLabel
@@ -139,11 +158,12 @@ export default ({user, handleSubmit, deleteUser, changeSUBE, handleSwitch, switc
                          }
                     </Grid>
 
-
                 </Grid>
             </Grid>
         </Grid>
+        
     </Paper> 
+    
 )
 
 

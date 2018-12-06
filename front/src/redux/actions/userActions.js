@@ -80,3 +80,7 @@ export const logOutUser = () => dispatch => {
 export const addSube = (idSube) => (dispatch) => {
     dispatch(newSube(idSube))
 }
+export const denunciarSUBE = subeId => dispatch => {
+    axios.put('/api/usuarios/denuncia', { subeId })
+    .then(res=>console.log(res.data))
+}
