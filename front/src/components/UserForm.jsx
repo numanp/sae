@@ -14,7 +14,7 @@ import SubeChange from '../containers/SubeChangeContainer'
 
 const imageMaxSize = 250000;
 
-export default ({user, handleSubmit, deleteUser, handleSwitch, changeSubeButton, switcher, handleChange, handleChangeSube, handleOnDrop}) => (
+export default ({user, handleSubmit, deleteUser, handleSwitch, changeSubeButton, switcher, handleChange, handleChangeSube, handleOnDrop, loggedUser, denunciarSUBE}) => (
     <Paper style={{width:'95%', margin:'auto'}}>
     {(changeSubeButton) ? <SubeChange 
                                 user={user}  
@@ -27,7 +27,7 @@ export default ({user, handleSubmit, deleteUser, handleSwitch, changeSubeButton,
                     <Grid container justify='center' style={{margin:'0 auto'}}>
                         {(user.imgPerfil) !== null ? <img style={{ width: '250px', height: '250px', objectFit: 'cover'}} src={(`${user.imgPerfil}`)} alt=""/> : <Dropzone
                             multiple={false}
-                            accept="image/jpg,image/png"
+                            accept="image/jpg, image/jpeg,image/png"
                             onDrop={handleOnDrop}
                             maxSize= {imageMaxSize}
                             >

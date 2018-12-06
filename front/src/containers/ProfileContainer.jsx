@@ -57,39 +57,40 @@ class ProfileContainer extends Component {
                 imgPerfil: value
             }
         })
-    console.log('LLEGOOOOO', this.state)
     }
 
-    handleOnDrop(files, rejectedFiles,e) {
+    handleOnDrop(files, rejectedFiles, e) {
         let changeFiles = files[0]
         e.preventDefault()
         if(rejectedFiles && rejectedFiles.length > 0){
-            const currentRejectedFile = currentRejectedFile[0]
+            const currentRejectedFile = rejectedFiles[0]
             const currentRejectedFileSize = currentRejectedFile.size
             if(currentRejectedFileSize > 250000){
                 alert('Los MB de la imagen es demasiado grande')
             }
+        }else{
+
+            
+                    const bindThis = this
+            
+                    function getBase64(file) {
+                        var reader = new FileReader();
+                        reader.readAsDataURL(file);
+                        reader.onload = function () {
+                          bindThis.bindSetState(reader.result)
+                        };
+                        reader.onerror = function (error) {
+                          console.log('Error: ', error);
+                        };
+                     }
+                     getBase64(changeFiles)
         }
-
-        const bindThis = this
-
-        function getBase64(file) {
-            var reader = new FileReader();
-            reader.readAsDataURL(file);
-            reader.onload = function () {
-              bindThis.bindSetState(reader.result)
-            };
-            reader.onerror = function (error) {
-              console.log('Error: ', error);
-            };
-         }
         //  return new Promise(function(resolve) {
         //     resolve(fn)
         // })
         // .then((res) => (res.data.id) ? this.props.history.push(`/userProfile/${res.data.id}`):
         // this.props.history.push('/userProfile/')
         // )
-         getBase64(changeFiles)
 
     }
     
