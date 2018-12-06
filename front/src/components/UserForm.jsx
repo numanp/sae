@@ -136,7 +136,7 @@ export default ({user, handleSubmit, deleteUser, handleSwitch, changeSubeButton,
                     <Grid container item xs={10} md={12}  style={{margin:'0 auto'}}> 
                         <FormControlLabel
                             labelPlacement="top"
-                            label="Franja horaria - logs"
+                            label="Franja Horaria - Logs de entrada"
                             control={
                                 <Switch
                                 onChange={handleSwitch}
@@ -145,14 +145,17 @@ export default ({user, handleSubmit, deleteUser, handleSwitch, changeSubeButton,
                                 />
                             }
                         />
-                        {user.id ? (switcher ?
+
+                        {!switcher ?
                             <Grid container item xs={12}>
-                            <Horarios />
+                            <Horarios userId={user.id}/>
                             </Grid>
-                            : 
+                            : user.id ?
                             <Grid container item xs={12}>
                             <HistoriesContainer userId={user.id} />
-                        </Grid>) : null }
+                            </Grid>
+                            : null 
+                         }
                     </Grid>
 
                 </Grid>
