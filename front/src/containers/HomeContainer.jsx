@@ -81,19 +81,16 @@ class HomeContainer extends Component{
 
     handleSubeInput(e){
         e.preventDefault();
-        console.log(e)
     }
 
 
     handleButtonChange(e){
         e.preventDefault();
         this.setState({ buttonChange: !this.state.buttonChange })
-        console.log(this.state)
     }
 
     render(){
         const { classes, theme } = this.props;
-        console.log(this.props)
         return(
             <div>
                 <Grid container className={classes.root} spacing={8}>
